@@ -5,7 +5,7 @@ import morgan from 'morgan'
 import { engine } from 'express-handlebars'
 import {join, dirname} from 'path'
 import {fileURLToPath} from 'url'
-import personasRoutes from './routes/personas.routes.js'
+import personasRoutes from './src/routes/personas.routes'
 
 //Initializacion
 const app = express();

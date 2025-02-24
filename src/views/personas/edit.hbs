@@ -1,0 +1,70 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">EDITAR PERSONA</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/edit/{{persona.id}}" method="post">
+
+                    {{!-- Especificamos todos los campos del formulario --}}
+
+                    <div class="input-group mt-2">
+                        <label for="name" class="input-group-text">Nombre</label>
+                        <input class="form-control" type="text" name="name" id="name" value="{{persona.name}}" placeholder="Ejemplo: Yony Sebastian" autofocus required>
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="lastname" class="input-group-text">Apellido</label>
+                        <input class="form-control" type="text" name="lastname" id="lastname" value="{{persona.lastname}}" placeholder="Ejemplo: Chaparro Mesa " required>
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="age" class="input-group-text">Edad</label>
+                        <input class="form-control" type="number" name="age" id="age" value="{{persona.age}}" required>
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="Per_telefono" class="input-group-text">Telefono</label>
+                        <input class="form-control" type="number" name="Per_telefono" id="Per_telefono" value="{{persona.Per_telefono}}" required>
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="Per_email" class="input-group-text">Email</label>
+                        <input class="form-control" type="email" name="Per_email" id="Per_email" value="{{persona.Per_email}}" placeholder="Ejemplo: pepito@mazorka.com" required>
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="Per_direccion" class="input-group-text">Direccion</label>
+                        <input class="form-control" type="text" name="Per_direccion" id="Per_direccion" value="{{persona.Per_direccion}}">
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="Per_tipo" class="input-group-text">Tipo de Persona</label>
+                        <select id="Per_tipo" name="Per_tipo" class="form-control" value="{{persona.Per_tipo}}" required>
+                            <option value="Natural">Natural</option>
+                            <option value="Juridica">Jurídica</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <label for="Per_tipo_identificacion" class="input-group-text">Tipo de Identificación</label>
+                        <select id="Per_tipo_identificacion" name="Per_tipo_identificacion" class="form-control" value="{{persona.Per_tipo_identificacion}}" required>
+                            <option value="CC">CC</option>
+                            <option value="NIP">NIP</option>
+                            <option value="NUIP">NUIP</option>
+                            <option value="TI">TI</option>
+                            <option value="CE">CE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mt-4 d-grid gap-2">
+                        <button class="btn btn-success">Actualizar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

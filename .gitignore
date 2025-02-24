@@ -1,0 +1,33 @@
+# Dependencias de Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Caché de npm y logs
+.npm/
+.cache/
+
+# Directorios de compilación
+dist/
+build/
+out/
+coverage/
+
+# Configuración de editores de código
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Archivos de TypeScript (si usas TypeScript)
+*.tsbuildinfo

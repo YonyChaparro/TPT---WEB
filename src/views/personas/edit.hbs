@@ -6,23 +6,13 @@
                     <h3 class="text-uppercase">EDITAR PERSONA</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/edit/{{persona.id}}" method="post">
+                    <form action="/edit/{{persona.Per_id}}" method="post">
 
                     {{!-- Especificamos todos los campos del formulario --}}
 
                     <div class="input-group mt-2">
-                        <label for="name" class="input-group-text">Nombre</label>
-                        <input class="form-control" type="text" name="name" id="name" value="{{persona.name}}" placeholder="Ejemplo: Yony Sebastian" autofocus required>
-                    </div>
-
-                    <div class="input-group mt-2">
-                        <label for="lastname" class="input-group-text">Apellido</label>
-                        <input class="form-control" type="text" name="lastname" id="lastname" value="{{persona.lastname}}" placeholder="Ejemplo: Chaparro Mesa " required>
-                    </div>
-
-                    <div class="input-group mt-2">
-                        <label for="age" class="input-group-text">Edad</label>
-                        <input class="form-control" type="number" name="age" id="age" value="{{persona.age}}" required>
+                        <label for="Per_nombre" class="input-group-text">Nombre</label>
+                        <input class="form-control" type="text" name="Per_nombre" id="Per_nombre" value="{{persona.Per_nombre}}" required>
                     </div>
 
                     <div class="input-group mt-2">

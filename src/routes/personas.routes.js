@@ -10,9 +10,9 @@ router.get('/add', (req,res)=>{
 
 router.post('/add', async(req, res)=>{
     try {
-        const {name, lastname, age, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
+        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
         const newPersona = {
-            name, lastname, age, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion
+            Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion
         }
         await pool.query('INSERT INTO personas SET ?', [newPersona]);
         res.redirect('/list')
@@ -32,10 +32,10 @@ router.get('/list', async(req,res)=>{
     }
 })
 // Select para editar por id
-router.get('/edit/:id', async(req, res)=>{
+router.get('/edit/:Per_id', async(req, res)=>{
     try {
-        const {id} = req.params;
-        const [persona]=await pool.query('SELECT * FROM personas WHERE id=?', [id]);
+        const {Per_id} = req.params;
+        const [persona]=await pool.query('SELECT * FROM personas WHERE Per_id=?', [Per_id]);
         const personaEdit = persona[0];
         res.render('personas/edit.hbs', {persona: personaEdit});
     } catch (err) {
@@ -44,12 +44,12 @@ router.get('/edit/:id', async(req, res)=>{
 });
 
 // Actualizamos de la lista
-router.post('/edit/:id', async(req, res)=>{
+router.post('/edit/:Per_id', async(req, res)=>{
     try {
-        const {name, lastname, age, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
-        const {id} = req.params;
-        const editPersona = {name, lastname, age, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion};
-        await pool.query('UPDATE personas SET ? WHERE id = ?', [editPersona, id]);
+        const {Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
+        const {Per_id} = req.params;
+        const editPersona = {Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion};
+        await pool.query('UPDATE personas SET ? WHERE Per_id = ?', [editPersona, Per_id]);
         res.redirect('/list')
     } catch (err) {
         res.status(500).json({message:err.message});
@@ -58,10 +58,10 @@ router.post('/edit/:id', async(req, res)=>{
 
 // Borramos de la lista
 
-router.get('/delete/:id', async(req, res)=>{
+router.get('/delete/:Per_id', async(req, res)=>{
     try {
-        const {id} = req.params;
-        await pool.query('DELETE FROM personas WHERE id = ?', [id]);
+        const {Per_id} = req.params;
+        await pool.query('DELETE FROM personas WHERE Per_id = ?', [Per_id]);
         res.redirect('/list')
     } catch (err) {
         res.status(500).json({message:err.message});

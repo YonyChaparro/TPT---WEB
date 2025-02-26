@@ -68,4 +68,13 @@ router.get('/delete/:Per_id', async(req, res)=>{
     }
 })
 
+
 export default router;
+
+// *****************************************RUTAS CLIENTES*********************
+
+
+
+
+
+

@@ -23,6 +23,18 @@ CREATE TABLE Cliente (
     FOREIGN KEY (Cli_per_id) REFERENCES personas(Per_id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE Empleado (
+    Emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    Emp_per_id INT,
+    Emp_puesto VARCHAR(100) NOT NULL,
+    Emp_salario DECIMAL(10,2) NOT NULL,
+    Emp_fecha_contratacion DATE NOT NULL,
+    FOREIGN KEY (Emp_per_id) REFERENCES personas(Per_id) ON DELETE CASCADE
+);
+
+
+
 SELECT * FROM personas;
 
 -- CREATE TABLE Persona (

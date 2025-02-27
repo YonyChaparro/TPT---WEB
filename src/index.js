@@ -6,7 +6,10 @@ import { engine } from 'express-handlebars'
 import {join, dirname} from 'path'
 import {fileURLToPath} from 'url'
 import personasRoutes from './routes/personas.routes.js'
-import clientesRoutes from './routes/clientes.routes.js'  //Se definen las rutas
+import clientesRoutes from './routes/clientes.routes.js'
+import empleadosRoutes from './routes/empleados.routes.js'
+
+//Se definen las rutas
 
 //Initializacion
 const app = express();
@@ -37,8 +40,13 @@ app.get('/Clientes', (req, res)=>{
     res.render('indexClientes.hbs')
 })
 
+app.get('/Empleados', (req, res)=>{
+    res.render('indexEmpleados.hbs')
+})
+
 app.use(personasRoutes);
 app.use(clientesRoutes);
+app.use(empleadosRoutes);
 
 //Public files
 app.use(express.static(join(__dirname, 'public')))

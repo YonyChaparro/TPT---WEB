@@ -1,4 +1,4 @@
-{{>navigationPersona}}
+{{>navigationClientes}}
 <div class="container p-4">
     <div class="row">
         <div class="col-md-4 mx-auto">
@@ -7,9 +7,14 @@
                     <h3 class="text-uppercase">CREAR NUEVO CLIENTE</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/add" method="post">
+                    <form action="/addClientes" method="post">
 
                     {{!-- Especificamos todos los campos del formulario --}}
+
+                    <div class="input-group mt-2">
+                        <label for="Per_id" class="input-group-text">ID</label>
+                        <input class="form-control" type="number" name="Per_id" id="Per_id"  required>
+                    </div>
 
                     <div class="input-group mt-2">
                         <label for="Per_nombre" class="input-group-text">Nombre</label>

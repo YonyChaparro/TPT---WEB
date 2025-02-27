@@ -15,6 +15,14 @@ CREATE TABLE personas(
     Per_tipo_identificacion ENUM('CC', 'NIP','NUIP', 'TI', 'CE')
 );
 
+
+DROP TABLE IF EXISTS Cliente;
+CREATE TABLE Cliente (
+    Cli_id INT AUTO_INCREMENT PRIMARY KEY,
+    Cli_per_id INT,
+    FOREIGN KEY (Cli_per_id) REFERENCES personas(Per_id) ON DELETE CASCADE
+);
+
 SELECT * FROM personas;
 
 -- CREATE TABLE Persona (

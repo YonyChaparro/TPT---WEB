@@ -1,0 +1,65 @@
+{{>navigationSocios}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">EDITAR SOCIO</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/editSocios/{{socio.Soc_id}}" method="post">
+                        <input type="hidden" name="Per_id" value="{{socio.Per_id}}">
+
+                        <div class="input-group mt-2">
+                            <label for="Per_nombre" class="input-group-text">Nombre</label>
+                            <input class="form-control" type="text" name="Per_nombre" id="Per_nombre" value="{{socio.Per_nombre}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Per_telefono" class="input-group-text">Teléfono</label>
+                            <input class="form-control" type="number" name="Per_telefono" id="Per_telefono" value="{{socio.Per_telefono}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Per_email" class="input-group-text">Email</label>
+                            <input class="form-control" type="email" name="Per_email" id="Per_email" value="{{socio.Per_email}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Per_direccion" class="input-group-text">Dirección</label>
+                            <input class="form-control" type="text" name="Per_direccion" id="Per_direccion" value="{{socio.Per_direccion}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Per_tipo" class="input-group-text">Tipo de Persona</label>
+                            <select id="Per_tipo" name="Per_tipo" class="form-control">
+                                <option value="Natural" {{#if (eq socio.Per_tipo "Natural")}}selected{{/if}}>Natural</option>
+                                <option value="Juridica" {{#if (eq socio.Per_tipo "Juridica")}}selected{{/if}}>Jurídica</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Per_tipo_identificacion" class="input-group-text">Tipo de Identificación</label>
+                            <select id="Per_tipo_identificacion" name="Per_tipo_identificacion" class="form-control">
+                                <option value="CC" {{#if (eq socio.Per_tipo_identificacion "CC")}}selected{{/if}}>CC</option>
+                                <option value="NIP" {{#if (eq socio.Per_tipo_identificacion "NIP")}}selected{{/if}}>NIP</option>
+                                <option value="NUIP" {{#if (eq socio.Per_tipo_identificacion "NUIP")}}selected{{/if}}>NUIP</option>
+                                <option value="TI" {{#if (eq socio.Per_tipo_identificacion "TI")}}selected{{/if}}>TI</option>
+                                <option value="CE" {{#if (eq socio.Per_tipo_identificacion "CE")}}selected{{/if}}>CE</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Soc_numero_de_acciones" class="input-group-text">Número de Acciones</label>
+                            <input class="form-control" type="number" name="Soc_numero_de_acciones" id="Soc_numero_de_acciones" value="{{socio.Soc_numero_de_acciones}}" required>
+                        </div>
+
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button class="btn btn-success">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

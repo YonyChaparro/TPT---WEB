@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url'
 import personasRoutes from './routes/personas.routes.js'
 import clientesRoutes from './routes/clientes.routes.js'
 import empleadosRoutes from './routes/empleados.routes.js'
+import sociosRoutes from './routes/socios.routes.js'
+import proveedoresRoutes from './routes/proveedores.routes.js'
+import Tipo_AlquilerRoutes from './routes/Tipo_Alquiler.routes.js'
 
 // Initialización
 const app = express();
@@ -43,9 +46,24 @@ app.get('/Empleados', (req, res) => {
     res.render('indexEmpleados');
 });
 
+app.get('/Socios', (req, res) => {
+    res.render('indexSocios');
+});
+
+app.get('/Proveedores', (req, res) => {
+    res.render('indexProveedores');
+});
+
+app.get('/Tipo_Alquiler', (req, res) => {
+    res.render('indexTipo_Alquiler');
+});
+
 app.use(personasRoutes);
 app.use(clientesRoutes);
 app.use(empleadosRoutes);
+app.use(sociosRoutes);
+app.use(proveedoresRoutes);
+app.use(Tipo_AlquilerRoutes);
 
 // Archivos estáticos
 app.use(express.static(join(__dirname, 'public')));

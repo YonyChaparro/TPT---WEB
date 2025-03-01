@@ -46,12 +46,12 @@ routerEmpleados.get('/listEmpleados', async(req,res)=>{
 
 
 // Select para editar por id
-routerEmpleados.get('/edit/:Per_id', async(req, res)=>{
+routerEmpleados.get('/editEmpleados/:Emp_per_id', async(req, res)=>{
     try {
-        const {Per_id} = req.params;
-        const [Empleado]=await pool.query('SELECT * FROM Empleado WHERE Per_id=?', [Per_id]);
+        const {Emp_per_id} = req.params;
+        const [Empleado]=await pool.query('SELECT * FROM Empleado WHERE Emp_per_id=?', [Emp_per_id]);
         const EmpleadosEdit = EmpleadosEdit[0];
-        res.render('Empleado/edit.hbs', {Empleado: EmpleadosEdit});
+        res.render('Empleados/editEmpleados.hbs', {Empleado: EmpleadosEdit});
     } catch (err) {
         res.status(500).json({message:err.message});
     }

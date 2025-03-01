@@ -7,21 +7,42 @@
             <table class="table text-center">
                 <thead>
                     <tr class="table-dark">
+                        <th>ID Persona</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Dirección</th>
+                        <th>Tipo</th>
+                        <th>Identificación</th>
                         <th>ID Cliente</th>
-                        <th>ID personal</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each Cliente}}
                     <tr>
-                        <td>{{Cli_id}}</td>
-                        <td>{{Cli_per_id}}</td>
+                        <td>{{this.Per_id}}</td>
+                        <td>{{this.Per_nombre}}</td>
+                        <td>{{this.Per_telefono}}</td>
+                        <td>{{this.Per_email}}</td>
+                        <td>{{this.Per_direccion}}</td>
+                        <td>{{this.Per_tipo}}</td>
+                        <td>{{this.Per_tipo_identificacion}}</td>
+                        <td>{{#if this.Cliente_ID}}{{this.Cliente_ID}}{{else}}N/A{{/if}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="/editClientes/{{this.Cliente_ID}}" class="btn btn-warning">
+                                <i class="fa-solid fa-pencil"></i></a>
+                                <a href="/deleteClientes/{{this.Cliente_ID}}" class="btn btn-danger">
+                                <i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        </td>
                     </tr>
                     {{/each}}
                 </tbody>
                 <tfoot>
                     <tr class="table-dark text-center">
-                        <td colspan="3"> |</td>
+                        <td colspan="9"> |</td>
                     </tr>
                 </tfoot>
             </table>

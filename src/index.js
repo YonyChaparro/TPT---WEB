@@ -1,56 +1,55 @@
-//conficuración básica del seervidor
-
 import express from 'express'
 import morgan from 'morgan'
 import { engine } from 'express-handlebars'
-import {join, dirname} from 'path'
-import {fileURLToPath} from 'url'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import personasRoutes from './routes/personas.routes.js'
 import clientesRoutes from './routes/clientes.routes.js'
 import empleadosRoutes from './routes/empleados.routes.js'
 
-//Se definen las rutas
-
-//Initializacion
+// Initialización
 const app = express();
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-//Settings
-app.set('port', process.env.PORT || 3000);  // si no se envia process.env.PORT entonces se hará al puerto especificado
-app.set('views', join(__dirname, 'views'));
+// Configuración de Handlebars con helpers personalizados
 app.engine('.hbs', engine({
     defaultLayout: 'main',
-    layoutsDir: join(app.get('views'), 'layouts'),
-    partialsDir: join(app.get('views'), 'partials'),
-    extname: '.hbs'
+    layoutsDir: join(__dirname, 'views', 'layouts'),
+    partialsDir: join(__dirname, 'views', 'partials'),
+    extname: '.hbs',
+    helpers: {
+        eq: (a, b) => a === b
+    }
 }));
 
-//Middlewares
+app.set('view engine', '.hbs');
+app.set('views', join(__dirname, 'views'));
+
+// Middlewares
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Rutas
+app.get('/Personas', (req, res) => {
+    res.render('indexPersona');
+});
 
-//Routes
-app.get('/Personas', (req, res)=>{
-    res.render('indexPersona.hbs')
-})
+app.get('/Clientes', (req, res) => {
+    res.render('indexClientes');
+});
 
-app.get('/Clientes', (req, res)=>{
-    res.render('indexClientes.hbs')
-})
-
-app.get('/Empleados', (req, res)=>{
-    res.render('indexEmpleados.hbs')
-})
+app.get('/Empleados', (req, res) => {
+    res.render('indexEmpleados');
+});
 
 app.use(personasRoutes);
 app.use(clientesRoutes);
 app.use(empleadosRoutes);
 
-//Public files
-app.use(express.static(join(__dirname, 'public')))
-//Run Server
+// Archivos estáticos
+app.use(express.static(join(__dirname, 'public')));
 
-app.listen(app.get('port'), ()=>
-    console.log('server listening on port:', app.get('port')));
+// Ejecutar servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server listening on port:', PORT));

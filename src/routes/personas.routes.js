@@ -58,7 +58,7 @@ router.post('/edit/:Per_id', async(req, res)=>{
 
 // Borramos de la lista
 
-router.get('/delete/:Per_id', async(req, res)=>{
+router.get('/delete/:Per_id', async(req, res)=>{  //Hacer todo el SQL Acá;
     try {
         const {Per_id} = req.params;
         await pool.query('DELETE FROM personas WHERE Per_id = ?', [Per_id]);

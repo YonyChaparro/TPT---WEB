@@ -8,4 +8,6 @@ const pool = createPool({
     database: 'Prueba01'
 })
 
+
+
 export default pool;

@@ -9,31 +9,27 @@
                 <div class="card-body">
                     <form action="/editClientes/{{cliente.Cli_id}}" method="post">
                     <input type="hidden" name="Per_id" value="{{cliente.Per_id}}">
-                        {{!-- Nombre --}}
+
                         <div class="input-group mt-2">
                             <label for="Per_nombre" class="input-group-text">Nombre</label>
                             <input class="form-control" type="text" name="Per_nombre" id="Per_nombre" value="{{cliente.Per_nombre}}" required>
                         </div>
 
-                        {{!-- Teléfono --}}
                         <div class="input-group mt-2">
                             <label for="Per_telefono" class="input-group-text">Teléfono</label>
                             <input class="form-control" type="number" name="Per_telefono" id="Per_telefono" value="{{cliente.Per_telefono}}" required>
                         </div>
 
-                        {{!-- Email --}}
                         <div class="input-group mt-2">
                             <label for="Per_email" class="input-group-text">Email</label>
                             <input class="form-control" type="email" name="Per_email" id="Per_email" value="{{cliente.Per_email}}" required>
                         </div>
 
-                        {{!-- Dirección --}}
                         <div class="input-group mt-2">
                             <label for="Per_direccion" class="input-group-text">Dirección</label>
                             <input class="form-control" type="text" name="Per_direccion" id="Per_direccion" value="{{cliente.Per_direccion}}" required>
                         </div>
 
-                        {{!-- Tipo de Persona --}}
                         <div class="input-group mt-2">
                             <label for="Per_tipo" class="input-group-text">Tipo de Persona</label>
                             <select id="Per_tipo" name="Per_tipo" class="form-control">
@@ -42,7 +38,6 @@
                             </select>
                         </div>
 
-                        {{!-- Tipo de Identificación --}}
                         <div class="input-group mt-2">
                             <label for="Per_tipo_identificacion" class="input-group-text">Tipo de Identificación</label>
                             <select id="Per_tipo_identificacion" name="Per_tipo_identificacion" class="form-control">
@@ -54,7 +49,16 @@
                             </select>
                         </div>
 
-                        {{!-- Botón de Actualizar --}}
+                        <div class="input-group mt-2">
+                            <label for="Cli_usuario" class="input-group-text">Usuario</label>
+                            <input class="form-control" type="text" name="Cli_usuario" id="Cli_usuario" value="{{cliente.Cli_usuario}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Cli_contrasena" class="input-group-text">Contraseña</label>
+                            <input class="form-control" type="password" name="Cli_contrasena" id="Cli_contrasena" value="{{cliente.Cli_contrasena}}" required>
+                        </div>
+
                         <div class="form-group mt-4 d-grid gap-2">
                             <button class="btn btn-success">Actualizar</button>
                         </div>

@@ -14,7 +14,7 @@ router.post('/add', async(req, res)=>{
         const newPersona = {
             Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion
         }
-        await pool.query('INSERT INTO personas SET ?', [newPersona]);
+        await pool.query('INSERT INTO Persona SET ?', [newPersona]);
         res.redirect('/list')
     } catch (err) {
         res.status(500).json({message:err.message})
@@ -24,7 +24,7 @@ router.post('/add', async(req, res)=>{
 // Obtenemos lista
 router.get('/list', async(req,res)=>{
     try{
-        const [result] = await pool.query('SELECT * FROM personas');
+        const [result] = await pool.query('SELECT * FROM Persona');
         res.render('personas/list.hbs', {personas: result})
     }
     catch(err){
@@ -35,7 +35,7 @@ router.get('/list', async(req,res)=>{
 router.get('/edit/:Per_id', async(req, res)=>{
     try {
         const {Per_id} = req.params;
-        const [persona]=await pool.query('SELECT * FROM personas WHERE Per_id=?', [Per_id]);
+        const [persona]=await pool.query('SELECT * FROM Persona WHERE Per_id=?', [Per_id]);
         const personaEdit = persona[0];
         res.render('personas/edit.hbs', {persona: personaEdit});
     } catch (err) {
@@ -49,7 +49,7 @@ router.post('/edit/:Per_id', async(req, res)=>{
         const {Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
         const {Per_id} = req.params;
         const editPersona = {Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion};
-        await pool.query('UPDATE personas SET ? WHERE Per_id = ?', [editPersona, Per_id]);
+        await pool.query('UPDATE Persona SET ? WHERE Per_id = ?', [editPersona, Per_id]);
         res.redirect('/list')
     } catch (err) {
         res.status(500).json({message:err.message});
@@ -61,7 +61,7 @@ router.post('/edit/:Per_id', async(req, res)=>{
 router.get('/delete/:Per_id', async(req, res)=>{  //Hacer todo el SQL Acá;
     try {
         const {Per_id} = req.params;
-        await pool.query('DELETE FROM personas WHERE Per_id = ?', [Per_id]);
+        await pool.query('DELETE FROM Persona WHERE Per_id = ?', [Per_id]);
         res.redirect('/list')
     } catch (err) {
         res.status(500).json({message:err.message});

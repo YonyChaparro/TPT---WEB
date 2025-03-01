@@ -1,58 +1,72 @@
-{{>navigationPersona}}
+{{>navigationEmpleados}}
 <div class="container p-4">
     <div class="row">
         <div class="col-md-4 mx-auto">
             <div class="card text-center">
                 <div class="card-header">
-                    <h3 class="text-uppercase">EDITAR PERSONA</h3>
+                    <h3 class="text-uppercase">EDITAR EMPLEADO</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/edit/{{persona.Per_id}}" method="post">
+                    <form action="/editEmpleados/{{empleado.Emp_id}}" method="post">
+                        <input type="hidden" name="Per_id" value="{{empleado.Per_id}}">
 
-                    {{!-- Especificamos todos los campos del formulario --}}
+                        <div class="input-group mt-2">
+                            <label for="Per_nombre" class="input-group-text">Nombre</label>
+                            <input class="form-control" type="text" name="Per_nombre" id="Per_nombre" value="{{empleado.Per_nombre}}" required>
+                        </div>
 
-                    <div class="input-group mt-2">
-                        <label for="Per_nombre" class="input-group-text">Nombre</label>
-                        <input class="form-control" type="text" name="Per_nombre" id="Per_nombre" value="{{persona.Per_nombre}}" required>
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Per_telefono" class="input-group-text">Teléfono</label>
+                            <input class="form-control" type="number" name="Per_telefono" id="Per_telefono" value="{{empleado.Per_telefono}}" required>
+                        </div>
 
-                    <div class="input-group mt-2">
-                        <label for="Per_telefono" class="input-group-text">Telefono</label>
-                        <input class="form-control" type="number" name="Per_telefono" id="Per_telefono" value="{{persona.Per_telefono}}" required>
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Per_email" class="input-group-text">Email</label>
+                            <input class="form-control" type="email" name="Per_email" id="Per_email" value="{{empleado.Per_email}}" required>
+                        </div>
 
-                    <div class="input-group mt-2">
-                        <label for="Per_email" class="input-group-text">Email</label>
-                        <input class="form-control" type="email" name="Per_email" id="Per_email" value="{{persona.Per_email}}" placeholder="Ejemplo: pepito@mazorka.com" required>
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Per_direccion" class="input-group-text">Dirección</label>
+                            <input class="form-control" type="text" name="Per_direccion" id="Per_direccion" value="{{empleado.Per_direccion}}" required>
+                        </div>
 
-                    <div class="input-group mt-2">
-                        <label for="Per_direccion" class="input-group-text">Direccion</label>
-                        <input class="form-control" type="text" name="Per_direccion" id="Per_direccion" value="{{persona.Per_direccion}}">
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Per_tipo" class="input-group-text">Tipo de Persona</label>
+                            <select id="Per_tipo" name="Per_tipo" class="form-control">
+                                <option value="Natural" {{#if (eq empleado.Per_tipo "Natural")}}selected{{/if}}>Natural</option>
+                                <option value="Juridica" {{#if (eq empleado.Per_tipo "Juridica")}}selected{{/if}}>Jurídica</option>
+                            </select>
+                        </div>
 
-                    <div class="input-group mt-2">
-                        <label for="Per_tipo" class="input-group-text">Tipo de Persona</label>
-                        <select id="Per_tipo" name="Per_tipo" class="form-control" value="{{persona.Per_tipo}}" required>
-                            <option value="Natural">Natural</option>
-                            <option value="Juridica">Jurídica</option>
-                        </select>
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Per_tipo_identificacion" class="input-group-text">Tipo de Identificación</label>
+                            <select id="Per_tipo_identificacion" name="Per_tipo_identificacion" class="form-control">
+                                <option value="CC" {{#if (eq empleado.Per_tipo_identificacion "CC")}}selected{{/if}}>CC</option>
+                                <option value="NIP" {{#if (eq empleado.Per_tipo_identificacion "NIP")}}selected{{/if}}>NIP</option>
+                                <option value="NUIP" {{#if (eq empleado.Per_tipo_identificacion "NUIP")}}selected{{/if}}>NUIP</option>
+                                <option value="TI" {{#if (eq empleado.Per_tipo_identificacion "TI")}}selected{{/if}}>TI</option>
+                                <option value="CE" {{#if (eq empleado.Per_tipo_identificacion "CE")}}selected{{/if}}>CE</option>
+                            </select>
+                        </div>
 
-                    <div class="input-group mt-2">
-                        <label for="Per_tipo_identificacion" class="input-group-text">Tipo de Identificación</label>
-                        <select id="Per_tipo_identificacion" name="Per_tipo_identificacion" class="form-control" value="{{persona.Per_tipo_identificacion}}" required>
-                            <option value="CC">CC</option>
-                            <option value="NIP">NIP</option>
-                            <option value="NUIP">NUIP</option>
-                            <option value="TI">TI</option>
-                            <option value="CE">CE</option>
-                        </select>
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Emp_puesto" class="input-group-text">Puesto</label>
+                            <input class="form-control" type="text" name="Emp_puesto" id="Emp_puesto" value="{{empleado.Emp_puesto}}" required>
+                        </div>
 
-                    <div class="form-group mt-4 d-grid gap-2">
-                        <button class="btn btn-success">Actualizar</button>
-                    </div>
+                        <div class="input-group mt-2">
+                            <label for="Emp_salario" class="input-group-text">Salario</label>
+                            <input class="form-control" type="number" step="0.01" name="Emp_salario" id="Emp_salario" value="{{empleado.Emp_salario}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Emp_fecha_contratacion" class="input-group-text">Fecha de Contratación</label>
+                            <input class="form-control" type="date" name="Emp_fecha_contratacion" id="Emp_fecha_contratacion" value="{{empleado.Emp_fecha_contratacion}}" required>
+                        </div>
+
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button class="btn btn-success">Actualizar</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -1,47 +1,71 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-center text-center" id="navbarNav">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/Personas">Personas</a>
+<div class="flex-shrink-0 p-0 w-auto h-auto ">
+    <a href="/Personas" class="d-flex align-items-center link-dark text-decoration-none border-bottom py-3 px-3">
+        <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4 fw-bold text-white">TPT</span>
+    </a>
+    <ul class="list-unstyled ps-0">
+        <!-- Gestión de Personas -->
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#personas-collapse" aria-expanded="false">
+                Gestión de Personas
+            </button>
+            <div class="collapse" id="personas-collapse">
+                <ul class="btn-toggle-nav list-unstyled pb-1 small">
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Personas">Personas</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Clientes">Clientes</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Empleados">Empleados</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Socios">Socios</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Proveedores">Proveedores</a></li>
+                </ul>
+            </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Clientes">Clientes</a>
+
+        <!-- Gestión de Vehículos -->
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#vehiculos-collapse" aria-expanded="false">
+                Gestión de Vehículos
+            </button>
+            <div class="collapse" id="vehiculos-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/tipo_alquiler">Modificaciones de alquiler</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/alquileres">Vehículos</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Tipo_Vehiculo">Tipos de vehículos</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Taller">Taller</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Mantenimiento">Mantenimientos</a></li>
+                </ul>
+            </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Empleados">Empleados</a>
+
+        <!-- Gestión de Alquileres -->
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#alquileres-collapse" aria-expanded="false">
+                Gestión de Alquileres
+            </button>
+            <div class="collapse" id="alquileres-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/alquiler">Alquileres</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Factura">Facturas</a></li>
+                </ul>
+            </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Socios">Socios</a>
+
+        <!-- Account -->
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center text-white rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3" 
+                    data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                Cuenta
+            </button>
+            <div class="collapse" id="account-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a class="nav-link fs-6 px-4 py-1" href="#">Perfil</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="#">Configuración</a></li>
+                    <li><a class="nav-link fs-6 px-4 py-1" href="#">Cerrar sesión</a></li>
+                </ul>
+            </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Proveedores">Proveedores</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/tipo_alquiler">Modificaciones de alquiler</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/VehiculoS">vehículos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Tipo_Vehiculo">Tipos de vehículos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Taller">Taller</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Mantenimiento">Mantenimientos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/alquiler">Alquileres</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Factura">Facturas</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    </ul>
+</div>

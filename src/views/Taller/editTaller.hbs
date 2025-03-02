@@ -1,0 +1,29 @@
+{{>navigationTaller}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">EDITAR TALLER</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/editTaller/{{taller.Tal_id}}" method="post">
+                        <div class="input-group mt-2">
+                            <label for="Tal_nombre" class="input-group-text">Nombre</label>
+                            <input class="form-control" type="text" name="Tal_nombre" id="Tal_nombre" value="{{taller.Tal_nombre}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Tal_direccion" class="input-group-text">Dirección</label>
+                            <input class="form-control" type="text" name="Tal_direccion" id="Tal_direccion" value="{{taller.Tal_direccion}}" required>
+                        </div>
+
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button class="btn btn-success">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+{{>navigationMantenimiento}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 class="text-uppercase">Registrar Mantenimiento</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/addMantenimiento" method="post">
+                        <div class="mb-3">
+                            <label for="Man_vehiculo_placa" class="form-label">Vehículo</label>
+                            <select name="Man_vehiculo_placa" class="form-select" required>
+                                {{#each vehiculos}}
+                                    <option value="{{this.Veh_placa}}">{{this.Veh_placa}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_taller" class="form-label">Taller</label>
+                            <select name="Man_taller" class="form-select" required>
+                                {{#each talleres}}
+                                    <option value="{{this.Tal_id}}">{{this.Tal_nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_fecha" class="form-label">Fecha</label>
+                            <input type="date" name="Man_fecha" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_tipo" class="form-label">Tipo</label>
+                            <select name="Man_tipo" class="form-select" required>
+                                <option value="Preventivo">Preventivo</option>
+                                <option value="Correctivo">Correctivo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_kilometraje_actual" class="form-label">Kilometraje</label>
+                            <input type="number" name="Man_kilometraje_actual" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_descripcion" class="form-label">Descripción</label>
+                            <textarea name="Man_descripcion" class="form-control" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_costo" class="form-label">Costo</label>
+                            <input type="number" step="0.01" name="Man_costo" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_cambio_de_aceite" class="form-label">Cambio de Aceite</label>
+                            <input type="checkbox" name="Man_cambio_de_aceite">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_cambio_frenos" class="form-label">Cambio de Frenos</label>
+                            <input type="checkbox" name="Man_cambio_frenos">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_alineación_y_balanceo" class="form-label">Alineación y Balanceo</label>
+                            <input type="checkbox" name="Man_alineación_y_balanceo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_revision_sistema_electrico" class="form-label">Revisión Sistema Eléctrico</label>
+                            <input type="checkbox" name="Man_revision_sistema_electrico">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_revision_neumaticos" class="form-label">Revisión Neumáticos</label>
+                            <input type="checkbox" name="Man_revision_neumaticos">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_certificacion_ambiental" class="form-label">Certificación Ambiental</label>
+                            <input type="checkbox" name="Man_certificacion_ambiental">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_certificacion_mecanica" class="form-label">Certificación Mecánica</label>
+                            <input type="checkbox" name="Man_certificacion_mecanica">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_detalles" class="form-label">Detalles</label>
+                            <textarea name="Man_detalles" class="form-control"></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

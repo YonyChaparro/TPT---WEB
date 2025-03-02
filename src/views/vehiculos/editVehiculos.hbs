@@ -1,0 +1,76 @@
+{{>navigationVehiculos}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">EDITAR VEHÍCULO</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/editVehiculos/{{vehiculo.Veh_placa}}" method="post">
+                        <div class="input-group mt-2">
+                            <label for="Veh_cuidad_de_registro" class="input-group-text">Ciudad de Registro</label>
+                            <input class="form-control" type="text" name="Veh_cuidad_de_registro" id="Veh_cuidad_de_registro" value="{{vehiculo.Veh_cuidad_de_registro}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_tipo" class="input-group-text">Tipo de Vehículo</label>
+                            <select class="form-control" name="Veh_tipo" id="Veh_tipo" required>
+                                {{#each tipos}}
+                                    <option value="{{this.Tip_id}}" {{#if (eq this.Tip_id vehiculo.Veh_tipo)}}selected{{/if}}>{{this.Tip_nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_marca" class="input-group-text">Marca</label>
+                            <input class="form-control" type="text" name="Veh_marca" id="Veh_marca" value="{{vehiculo.Veh_marca}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_modelo" class="input-group-text">Modelo</label>
+                            <input class="form-control" type="text" name="Veh_modelo" id="Veh_modelo" value="{{vehiculo.Veh_modelo}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_año" class="input-group-text">Año</label>
+                            <input class="form-control" type="number" name="Veh_año" id="Veh_año" value="{{vehiculo.Veh_año}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_kilometraje" class="input-group-text">Kilometraje</label>
+                            <input class="form-control" type="number" name="Veh_kilometraje" id="Veh_kilometraje" value="{{vehiculo.Veh_kilometraje}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_soat_vigencia" class="input-group-text">SOAT Vigencia</label>
+                            <input class="form-control" type="date" name="Veh_soat_vigencia" id="Veh_soat_vigencia" value="{{vehiculo.Veh_soat_vigencia}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_rtm_vigencia" class="input-group-text">RTM Vigencia</label>
+                            <input class="form-control" type="date" name="Veh_rtm_vigencia" id="Veh_rtm_vigencia" value="{{vehiculo.Veh_rtm_vigencia}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_norma_ambiental" class="input-group-text">Norma Ambiental</label>
+                            <input class="form-control" type="text" name="Veh_norma_ambiental" id="Veh_norma_ambiental" value="{{vehiculo.Veh_norma_ambiental}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Veh_gps_instalado" class="input-group-text">GPS Instalado</label>
+                            <select class="form-control" name="Veh_gps_instalado" id="Veh_gps_instalado" required>
+                                <option value="1" {{#if vehiculo.Veh_gps_instalado}}selected{{/if}}>Sí</option>
+                                <option value="0" {{#unless vehiculo.Veh_gps_instalado}}selected{{/unless}}>No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button class="btn btn-success">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

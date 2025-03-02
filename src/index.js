@@ -9,7 +9,12 @@ import empleadosRoutes from './routes/empleados.routes.js'
 import sociosRoutes from './routes/socios.routes.js'
 import proveedoresRoutes from './routes/proveedores.routes.js'
 import Tipo_AlquilerRoutes from './routes/Tipo_Alquiler.routes.js'
-
+import Tipo_VehiculoRoutes from './routes/Tipo_Vehiculo.routes.js'
+import vehiculoRoutes from './routes/vehiculos.routes.js'
+import TallerRoutes from './routes/taller.routes.js'
+import MantenimientoRoutes from './routes/mantenimiento.routes.js'
+import alquilerRoutes from './routes/alquiler.routes.js'
+import facturaRoutes from './routes/factura.routes.js'
 // Initialización
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -58,12 +63,47 @@ app.get('/Tipo_Alquiler', (req, res) => {
     res.render('indexTipo_Alquiler');
 });
 
+app.get('/Tipo_Vehiculo', (req, res) => {
+    res.render('indexTipo_Vehiculo');
+});
+
+app.get('/Vehiculos', (req, res) => {
+    res.render('indexVehiculo');
+});
+
+app.get('/Taller', (req, res) => {
+    res.render('indexTaller');
+});
+
+app.get('/Mantenimiento', (req, res) => {
+    res.render('indexMantenimiento');
+});
+
+app.get('/Alquiler', (req, res) => {
+    res.render('indexAlquiler');
+});
+
+app.get('/Factura', (req, res) => {
+    res.render('indexFactura');
+});
+
+
+
 app.use(personasRoutes);
 app.use(clientesRoutes);
 app.use(empleadosRoutes);
 app.use(sociosRoutes);
 app.use(proveedoresRoutes);
 app.use(Tipo_AlquilerRoutes);
+app.use(Tipo_VehiculoRoutes);
+app.use(vehiculoRoutes);
+app.use(TallerRoutes);
+app.use(MantenimientoRoutes);
+app.use(alquilerRoutes);
+app.use(facturaRoutes);
+
+
+
 
 // Archivos estáticos
 app.use(express.static(join(__dirname, 'public')));

@@ -1,0 +1,83 @@
+{{>navigationMantenimiento}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 class="text-uppercase">Editar Mantenimiento</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/editMantenimiento/{{mantenimiento.Man_id}}" method="post">
+                        <input type="hidden" name="Man_id" value="{{mantenimiento.Man_id}}">
+                        <div class="mb-3">
+                            <label for="Man_fecha" class="form-label">Fecha</label>
+                            <input type="date" name="Man_fecha" class="form-control" value="{{mantenimiento.Man_fecha}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_tipo" class="form-label">Tipo</label>
+                            <select name="Man_tipo" class="form-select">
+                                <option value="Preventivo" {{#if (eq mantenimiento.Man_tipo 'Preventivo')}}selected{{/if}}>Preventivo</option>
+                                <option value="Correctivo" {{#if (eq mantenimiento.Man_tipo 'Correctivo')}}selected{{/if}}>Correctivo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_kilometraje_actual" class="form-label">Kilometraje</label>
+                            <input type="number" name="Man_kilometraje_actual" class="form-control" value="{{mantenimiento.Man_kilometraje_actual}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_descripcion" class="form-label">Descripción</label>
+                            <textarea name="Man_descripcion" class="form-control" required>{{mantenimiento.Man_descripcion}}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_costo" class="form-label">Costo</label>
+                            <input type="number" step="0.01" name="Man_costo" class="form-control" value="{{mantenimiento.Man_costo}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_cambio_de_aceite" class="form-label">Cambio de Aceite</label>
+                            <input type="checkbox" name="Man_cambio_de_aceite" {{#if mantenimiento.Man_cambio_de_aceite}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_cambio_frenos" class="form-label">Cambio de Frenos</label>
+                            <input type="checkbox" name="Man_cambio_frenos" {{#if mantenimiento.Man_cambio_frenos}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_alineación_y_balanceo" class="form-label">Alineación y Balanceo</label>
+                            <input type="checkbox" name="Man_alineación_y_balanceo" {{#if mantenimiento.Man_alineación_y_balanceo}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_revision_sistema_electrico" class="form-label">Revisión Sistema Eléctrico</label>
+                            <input type="checkbox" name="Man_revision_sistema_electrico" {{#if mantenimiento.Man_revision_sistema_electrico}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_revision_neumaticos" class="form-label">Revisión Neumáticos</label>
+                            <input type="checkbox" name="Man_revision_neumaticos" {{#if mantenimiento.Man_revision_neumaticos}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_certificacion_ambiental" class="form-label">Certificación Ambiental</label>
+                            <input type="checkbox" name="Man_certificacion_ambiental" {{#if mantenimiento.Man_certificacion_ambiental}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_certificacion_mecanica" class="form-label">Certificación Mecánica</label>
+                            <input type="checkbox" name="Man_certificacion_mecanica" {{#if mantenimiento.Man_certificacion_mecanica}}checked{{/if}}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_detalles" class="form-label">Detalles</label>
+                            <textarea name="Man_detalles" class="form-control">{{mantenimiento.Man_detalles}}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Man_estado" class="form-label">Estado</label>
+                            <select name="Man_estado" class="form-select">
+                                <option value="Pendiente" {{#if (eq mantenimiento.Man_estado 'Pendiente')}}selected{{/if}}>Pendiente</option>
+                                <option value="En proceso" {{#if (eq mantenimiento.Man_estado 'En proceso')}}selected{{/if}}>En proceso</option>
+                                <option value="Completado" {{#if (eq mantenimiento.Man_estado 'Completado')}}selected{{/if}}>Completado</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

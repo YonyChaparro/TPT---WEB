@@ -1,0 +1,64 @@
+{{>navigationAlquiler}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 class="text-uppercase">Editar Alquiler</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/editAlquiler/{{alquiler.Alq_id}}" method="post">
+                        <div class="mb-3">
+                            <label for="Alq_cliente" class="form-label">Cliente</label>
+                            <select name="Alq_cliente" class="form-select" required>
+                                {{#each clientes}}
+                                    <option value="{{this.Cli_id}}" {{#if (eq this.Cli_id alquiler.Alq_cliente)}}selected{{/if}}>
+                                        {{this.Per_nombre}} (ID: {{this.Cli_id}})
+                                    </option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alq_vehiculo_placa" class="form-label">Vehículo</label>
+                            <select name="Alq_vehiculo_placa" class="form-select" required>
+                                {{#each vehiculos}}
+                                    <option value="{{this.Veh_placa}}" {{#if (eq this.Veh_placa alquiler.Alq_vehiculo_placa)}}selected{{/if}}>
+                                        {{this.Veh_marca}} {{this.Veh_modelo}} ({{this.Veh_placa}})
+                                    </option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alq_tipo" class="form-label">Tipo de Alquiler</label>
+                            <select name="Alq_tipo" class="form-select" required>
+                                {{#each tipos}}
+                                    <option value="{{this.Tip_Alq_id}}" {{#if (eq this.Tip_Alq_id alquiler.Alq_tipo)}}selected{{/if}}>
+                                        {{this.Tip_Alq_nombre}}
+                                    </option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alq_fecha_inicio" class="form-label">Fecha de Inicio</label>
+                            <input type="date" name="Alq_fecha_inicio" class="form-control" value="{{alquiler.Alq_fecha_inicio}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alq_duracion" class="form-label">Duración (horas)</label>
+                            <input type="number" name="Alq_duracion" class="form-control" value="{{alquiler.Alq_duracion}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alq_estado" class="form-label">Estado</label>
+                            <select name="Alq_estado" class="form-select" required>
+                                <option value="Activo" {{#if (eq alquiler.Alq_estado 'Activo')}}selected{{/if}}>Activo</option>
+                                <option value="Finalizado" {{#if (eq alquiler.Alq_estado 'Finalizado')}}selected{{/if}}>Finalizado</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

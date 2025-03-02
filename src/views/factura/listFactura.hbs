@@ -1,0 +1,37 @@
+{{>navigationFactura}}
+<div class="container mt-4">
+    <h3 class="text-center text-uppercase">Lista de Facturas</h3>
+    {{#if facturas.length}}
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>ID de Alquiler</th>
+                <th>Fecha</th>
+                <th>Impuesto</th>
+                <th>Descuento</th>
+                <th>Método de Pago</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each facturas}}
+            <tr>
+                <td>{{this.Fac_id}}</td>
+                <td>{{this.Fac_alquiler_id}}</td>
+                <td>{{this.Fac_fecha}}</td>
+                <td>${{this.Fac_impuesto}}</td>
+                <td>${{this.Fac_descuento}}</td>
+                <td>{{this.Fac_metodo_pago}}</td>
+                <td>
+                    <a href="/editFactura/{{this.Fac_id}}" class="btn btn-warning">Editar</a>
+                    <a href="/deleteFactura/{{this.Fac_id}}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <div class="alert alert-info text-center">No hay facturas registradas.</div>
+    {{/if}}
+</div>

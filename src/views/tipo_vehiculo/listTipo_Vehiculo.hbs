@@ -1,0 +1,58 @@
+{{>navigationTipo_Vehiculo}}
+<div class="container">
+    <div class="row mt-5 container mx-auto">
+        <h3 class="text-center text-uppercase p-2">Lista de Tipos de Vehículo</h3>
+        {{#if tipoVehiculos}}
+        <div class="col-md-3 w-100 container mx-auto">
+            <table class="table text-center">
+                <thead>
+                    <tr class="table-dark">
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Tarifa</th>
+                        <th>Capacidad de Carga</th>
+                        <th>Combustible</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each tipoVehiculos}}
+                    <tr>
+                        <td>{{Tip_id}}</td>
+                        <td>{{Tip_nombre}}</td>
+                        <td>{{Tip_tarifa}}</td>
+                        <td>{{Tip_capacidad_carga}}</td>
+                        <td>{{Tip_combustible}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="/editTipo_Vehiculo/{{Tip_id}}" class="btn btn-warning">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </a>
+                                <a href="/deleteTipo_Vehiculo/{{Tip_id}}" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr class="table-dark text-center">
+                        <td colspan="6">REGISTRO DE TIPOS DE VEHÍCULO</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        {{else}}
+        <div class="card text-center mx-auto" style="width: 350px;">
+            <div class="card-header">
+                <h3>No hay tipos de vehículo registrados</h3>
+            </div>
+            <div class="card-body">
+                <p>Presiona este botón para registrar un nuevo tipo de vehículo</p>
+                <a href="/addTipo_Vehiculo" class="btn btn-primary">Agregar Tipo de Vehículo</a>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>

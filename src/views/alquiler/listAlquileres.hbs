@@ -1,0 +1,39 @@
+{{>navigationAlquiler}}
+<div class="container mt-4">
+    <h3 class="text-center text-uppercase">Lista de Alquileres</h3>
+    {{#if alquileres.length}}
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Vehículo</th>
+                <th>Tipo de Alquiler</th>
+                <th>Fecha de Inicio</th>
+                <th>Duración (horas)</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each alquileres}}
+            <tr>
+                <td>{{this.Alq_id}}</td>
+                <td>{{this.Per_nombre}} (ID: {{this.Alq_cliente}})</td>
+                <td>{{this.Veh_marca}} {{this.Veh_modelo}} ({{this.Alq_vehiculo_placa}})</td>
+                <td>{{this.Tip_Alq_nombre}}</td>
+                <td>{{this.Alq_fecha_inicio}}</td>
+                <td>{{this.Alq_duracion}}</td>
+                <td>{{this.Alq_estado}}</td>
+                <td>
+                    <a href="/editAlquiler/{{this.Alq_id}}" class="btn btn-warning">Editar</a>
+                    <a href="/deleteAlquiler/{{this.Alq_id}}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <div class="alert alert-info text-center">No hay alquileres registrados.</div>
+    {{/if}}
+</div>

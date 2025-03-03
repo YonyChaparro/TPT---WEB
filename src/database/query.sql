@@ -176,3 +176,39 @@ CREATE TABLE Factura (
     Fac_metodo_pago ENUM('Tarjeta débito', 'Tarjeta crédito', 'Efectivo', 'Transferencia') NOT NULL,
     FOREIGN KEY (Fac_alquiler_id) REFERENCES Alquiler(Alq_id) ON DELETE CASCADE
 );
+
+
+
+-- PROCESO ALMACENADO PARA ALQUILAR VEHÍCULO *******************************;
+
+DROP PROCEDURE IF EXISTS SP_Verificar_Disponibilidad;
+DELIMITER $$
+
+CREATE PROCEDURE SP_Verificar_Disponibilidad(IN placa CHAR(6))
+BEGIN
+    DECLARE existe_alquiler INT;
+    DECLARE existe_mantenimiento INT;
+    DECLARE disponible BOOLEAN;
+
+    -- Verificar si el vehículo ya tiene un alquiler activo
+    SELECT COUNT(*) INTO existe_alquiler
+    FROM Alquiler
+    WHERE Alq_vehiculo_placa = placa AND Alq_estado = 'Activo';
+
+    -- Verificar si el vehículo está en mantenimiento
+    SELECT COUNT(*) INTO existe_mantenimiento
+    FROM Mantenimiento_Vehiculo
+    WHERE Man_vehiculo_placa = placa AND Man_estado = 'Pendiente';
+
+    -- Si hay alquiler o mantenimiento, el vehículo no está disponible
+    IF existe_alquiler > 0 OR existe_mantenimiento > 0 THEN
+        SET disponible = FALSE;
+    ELSE
+        SET disponible = TRUE;
+    END IF;
+
+    -- Devolver el valor de disponible
+    SELECT disponible AS disponible;
+END $$
+
+DELIMITER ;

@@ -15,7 +15,9 @@ import TallerRoutes from './routes/taller.routes.js'
 import MantenimientoRoutes from './routes/mantenimiento.routes.js'
 import alquilerRoutes from './routes/alquiler.routes.js'
 import facturaRoutes from './routes/factura.routes.js'
-// Initialización
+import servicioRoutes from './routes/servicio.router.js'
+
+// Inicialización
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -26,7 +28,10 @@ app.engine('.hbs', engine({
     partialsDir: join(__dirname, 'views', 'partials'),
     extname: '.hbs',
     helpers: {
-        eq: (a, b) => a === b
+        eq: (a, b) => a === b, // Helper existente
+        ifEquals: function (arg1, arg2, options) { // Helper agregado
+            return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+        }
     }
 }));
 
@@ -39,56 +44,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Rutas
-app.get('/Personas', (req, res) => {
-    res.render('indexPersona');
-});
+app.get('/Personas', (req, res) => res.render('indexPersona'));
+app.get('/Clientes', (req, res) => res.render('indexClientes'));
+app.get('/Empleados', (req, res) => res.render('indexEmpleados'));
+app.get('/Socios', (req, res) => res.render('indexSocios'));
+app.get('/Proveedores', (req, res) => res.render('indexProveedores'));
+app.get('/Tipo_Alquiler', (req, res) => res.render('indexTipo_Alquiler'));
+app.get('/Tipo_Vehiculo', (req, res) => res.render('indexTipo_Vehiculo'));
+app.get('/Vehiculos', (req, res) => res.render('indexVehiculo'));
+app.get('/Taller', (req, res) => res.render('indexTaller'));
+app.get('/Mantenimiento', (req, res) => res.render('indexMantenimiento'));
+app.get('/Alquiler', (req, res) => res.render('indexAlquiler'));
+app.get('/Factura', (req, res) => res.render('indexFactura'));
+app.get('/Servicios', (req, res) => res.render('indexServicio'));
 
-app.get('/Clientes', (req, res) => {
-    res.render('indexClientes');
-});
-
-app.get('/Empleados', (req, res) => {
-    res.render('indexEmpleados');
-});
-
-app.get('/Socios', (req, res) => {
-    res.render('indexSocios');
-});
-
-app.get('/Proveedores', (req, res) => {
-    res.render('indexProveedores');
-});
-
-app.get('/Tipo_Alquiler', (req, res) => {
-    res.render('indexTipo_Alquiler');
-});
-
-app.get('/Tipo_Vehiculo', (req, res) => {
-    res.render('indexTipo_Vehiculo');
-});
-
-app.get('/Vehiculos', (req, res) => {
-    res.render('indexVehiculo');
-});
-
-app.get('/Taller', (req, res) => {
-    res.render('indexTaller');
-});
-
-app.get('/Mantenimiento', (req, res) => {
-    res.render('indexMantenimiento');
-});
-
-app.get('/Alquiler', (req, res) => {
-    res.render('indexAlquiler');
-});
-
-app.get('/Factura', (req, res) => {
-    res.render('indexFactura');
-});
-
-
-
+// Rutas Importadas
 app.use(personasRoutes);
 app.use(clientesRoutes);
 app.use(empleadosRoutes);
@@ -101,13 +71,11 @@ app.use(TallerRoutes);
 app.use(MantenimientoRoutes);
 app.use(alquilerRoutes);
 app.use(facturaRoutes);
-
-
-
+app.use(servicioRoutes);
 
 // Archivos estáticos
 app.use(express.static(join(__dirname, 'public')));
 
-// Ejecutar servidor
+// Iniciar el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server listening on port:', PORT));

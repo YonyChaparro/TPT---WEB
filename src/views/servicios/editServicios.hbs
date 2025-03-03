@@ -1,0 +1,45 @@
+{{>navigationServicios}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">Editar Servicio</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/editServicios/{{servicio.Alq_id}}" method="POST">
+                        <div class="input-group mt-2">
+                            <label for="Alq_tipo" class="input-group-text">Tipo de Servicio</label>
+                            <select id="Alq_tipo" name="Alq_tipo" class="form-control">
+                                <option value="1" {{#ifEquals servicio.Alq_tipo "1"}}selected{{/ifEquals}}>Estándar</option>
+                                <option value="2" {{#ifEquals servicio.Alq_tipo "2"}}selected{{/ifEquals}}>Completo</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Alq_fecha_inicio" class="input-group-text">Fecha de Inicio</label>
+                            <input class="form-control" type="date" name="Alq_fecha_inicio" id="Alq_fecha_inicio" value="{{servicio.Alq_fecha_inicio}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Alq_duracion" class="input-group-text">Duración (horas)</label>
+                            <input class="form-control" type="number" name="Alq_duracion" id="Alq_duracion" value="{{servicio.Alq_duracion}}" required>
+                        </div>
+
+                        <div class="input-group mt-2">
+                            <label for="Alq_estado" class="input-group-text">Estado</label>
+                            <select id="Alq_estado" name="Alq_estado" class="form-control">
+                                <option value="Activo" {{#ifEquals servicio.Alq_estado "Activo"}}selected{{/ifEquals}}>Activo</option>
+                                <option value="Finalizado" {{#ifEquals servicio.Alq_estado "Finalizado"}}selected{{/ifEquals}}>Finalizado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button class="btn btn-success">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+{{>navigationServicios}}
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">CREAR NUEVO SERVICIO</h3>
+                </div>
+                <div class="card-body">
+                    <form id="formServicio" action="/addServicios" method="post">
+                        <!-- Seleccionar Cliente -->
+                        <div class="input-group mt-2">
+                            <label for="cliente" class="input-group-text">Cliente</label>
+                            <select id="cliente" name="cliente" class="form-control" required>
+                                <option value="" disabled selected>Seleccione un Cliente</option>
+                                {{#each clientes}}
+                                    <option value="{{this.Cli_id}}">{{this.Per_nombre}} ({{this.Cli_usuario}})</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <!-- Seleccionar Vehículo -->
+                        <div class="input-group mt-2">
+                            <label for="vehiculo" class="input-group-text">Placa Vehículo</label>
+                            <select id="vehiculo" name="vehiculo" class="form-control" required>
+                                <option value="" disabled selected>Seleccione un Vehículo</option>
+                                {{#each vehiculos}}
+                                    <option value="{{this.Veh_placa}}">{{this.Veh_placa}} - {{this.Veh_marca}} {{this.Veh_modelo}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <!-- Botón de Verificación -->
+                        <div class="form-group mt-2">
+                            <button type="button" id="verificarBtn" class="btn btn-warning">Verificar Disponibilidad</button>
+                        </div>
+                        <div id="mensajeVerificacion" class="mt-2"></div>
+
+                        <!-- Seleccionar Tipo de Servicio -->
+                        <div class="input-group mt-2">
+                            <label for="tipo_servicio" class="input-group-text">Tipo de Servicio</label>
+                            <select id="tipo_servicio" name="tipo_servicio" class="form-control">
+                                <option value="" disabled selected>Seleccione un Tipo</option>
+                                {{#each tiposServicios}}
+                                    <option value="{{this.Tip_Alq_id}}">{{this.Tip_Alq_nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <!-- Fecha de Inicio -->
+                        <div class="input-group mt-2">
+                            <label for="fecha_inicio" class="input-group-text">Fecha de Inicio</label>
+                            <input class="form-control" type="date" name="fecha_inicio" id="fecha_inicio" required>
+                        </div>
+
+                        <!-- Duración del Servicio -->
+                        <div class="input-group mt-2">
+                            <label for="duracion" class="input-group-text">Duración (horas)</label>
+                            <input class="form-control" type="number" name="duracion" id="duracion" min="1" required>
+                        </div>
+
+                        <!-- Botón para Crear Servicio -->
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button id="submitBtn" class="btn btn-success" disabled>Crear Servicio</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("verificarBtn").addEventListener("click", async function() {
+    const vehiculo = document.getElementById("vehiculo").value;
+    if (!vehiculo) {
+        alert("Seleccione un vehículo antes de verificar.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`/verificar-disponibilidad?placa=${vehiculo}`);
+        const data = await response.json();
+        
+        const mensajeDiv = document.getElementById("mensajeVerificacion");
+        const submitBtn = document.getElementById("submitBtn");
+
+        if (data.disponible) {
+            mensajeDiv.innerHTML = '<div class="alert alert-success">El vehículo está disponible para alquiler.</div>';
+            submitBtn.disabled = false;
+        } else {
+            mensajeDiv.innerHTML = '<div class="alert alert-danger">El vehículo NO está disponible.</div>';
+            submitBtn.disabled = true;
+        }
+    } catch (error) {
+        alert("Error al verificar disponibilidad.");
+    }
+});
+</script>

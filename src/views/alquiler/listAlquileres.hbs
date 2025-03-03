@@ -26,9 +26,14 @@
                 <td>{{this.Alq_duracion}}</td>
                 <td>{{this.Alq_estado}}</td>
                 <td>
-                    <a href="/editAlquiler/{{this.Alq_id}}" class="btn btn-warning">Editar</a>
-                    <a href="/deleteAlquiler/{{this.Alq_id}}" class="btn btn-danger">Eliminar</a>
+                    <div class="btn-group">
+                        <a href="/editAlquiler/{{this.Alq_id}}" class="btn btn-warning">
+                        <i class="fa-solid fa-pencil"></i></a>
+                        <a href="/deleteAlquiler/{{this.Alq_id}}" class="btn btn-danger">
+                        <i class="fa-solid fa-trash"></i></a>
+                    </div>
                 </td>
+
             </tr>
             {{/each}}
         </tbody>

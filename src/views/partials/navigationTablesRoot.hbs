@@ -1,0 +1,68 @@
+<div class="flex-shrink-0 p-0 w-auto h-auto ">
+    <a href="/Personas" class="d-flex align-items-center link-dark text-decoration-none border-bottom py-3 px-3">
+        <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4 fw-bold text-white">TPT</span>
+    </a>
+
+    <li class="mb-1 list-unstyled">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#Gerente-collapse" aria-expanded="false">
+                Gerente
+            </button>
+            <div class="collapse" id="Gerente-collapse">
+                <ul class="btn-toggle-nav list-unstyled pb-1 small">
+                    {{>menuGerente}}
+                </ul>
+            </div>
+    </li>
+<li class="border-top my-3 list-unstyled"></li>
+    <li class="mb-1 list-unstyled">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#software-collapse" aria-expanded="false">
+                Ingeniero de software
+            </button>
+            <div class="collapse" id="software-collapse">
+                <ul class="btn-toggle-nav list-unstyled pb-1 small">
+                    {{>menuGerente}}
+                </ul>
+            </div>
+    </li>
+<li class="border-top my-3 list-unstyled"></li>
+    <li class="mb-1 list-unstyled">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#IngMecanico-collapse" aria-expanded="false">
+                Ingeniero Mecánico
+            </button>
+            <div class="collapse" id="IngMecanico-collapse">
+                <ul class="btn-toggle-nav list-unstyled pb-1 small">
+                    {{>menuIngMecanico}}
+                </ul>
+            </div>
+    </li>
+<li class="border-top my-3 list-unstyled"></li>
+    <li class="mb-1 list-unstyled">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#Contador-collapse" aria-expanded="false">
+                Contador
+            </button>
+            <div class="collapse" id="Contador-collapse">
+                <ul class="btn-toggle-nav list-unstyled pb-1 small">
+                    {{>menuContador}}
+                </ul>
+            </div>
+    </li>
+<li class="border-top my-3 list-unstyled"></li>
+    <li class="mb-1 list-unstyled">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start fs-5 fw-semibold py-2 px-3 text-white"
+                    data-bs-toggle="collapse" data-bs-target="#Cliente-collapse" aria-expanded="false">
+                Cliente
+            </button>
+            <div class="collapse" id="Cliente-collapse">
+                <ul class="btn-toggle-nav list-unstyled pb-1 small">
+                    <li><a class="nav-link fs-6 px-4 py-1" href="/Clientes">Adquirir Servicio</a></li>
+                </ul>
+            </div>
+    </li>
+
+</div>
+<li class="border-top my-3 list-unstyled"></li>

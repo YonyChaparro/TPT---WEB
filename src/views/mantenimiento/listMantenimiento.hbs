@@ -1,5 +1,5 @@
 {{>navigationMantenimiento}}
-<div class="container mt-4">
+<div class="container p-0 m-5 mt-4">
     <h3 class="text-center text-uppercase">Lista de Mantenimientos</h3>
     {{#if mantenimientos.length}}
     <table class="table table-bordered text-center">
@@ -36,18 +36,22 @@
                 <td>{{this.Man_kilometraje_actual}}</td>
                 <td>{{this.Man_descripcion}}</td>
                 <td>${{this.Man_costo}}</td>
-                <td>{{#if this.Man_cambio_de_aceite}}✔{{else}}✘{{/if}}</td>
-                <td>{{#if this.Man_cambio_frenos}}✔{{else}}✘{{/if}}</td>
-                <td>{{#if this.Man_alineación_y_balanceo}}✔{{else}}✘{{/if}}</td>
-                <td>{{#if this.Man_revision_sistema_electrico}}✔{{else}}✘{{/if}}</td>
-                <td>{{#if this.Man_revision_neumaticos}}✔{{else}}✘{{/if}}</td>
-                <td>{{#if this.Man_certificacion_ambiental}}✔{{else}}✘{{/if}}</td>
-                <td>{{#if this.Man_certificacion_mecanica}}✔{{else}}✘{{/if}}</td>
+                <td>{{#if this.Man_cambio_de_aceite}}Sí{{else}}No{{/if}}</td>
+                <td>{{#if this.Man_cambio_frenos}}Sí{{else}}No{{/if}}</td>
+                <td>{{#if this.Man_alineación_y_balanceo}}Sí{{else}}No{{/if}}</td>
+                <td>{{#if this.Man_revision_sistema_electrico}}Sí{{else}}No{{/if}}</td>
+                <td>{{#if this.Man_revision_neumaticos}}Sí{{else}}No{{/if}}</td>
+                <td>{{#if this.Man_certificacion_ambiental}}Sí{{else}}No{{/if}}</td>
+                <td>{{#if this.Man_certificacion_mecanica}}Sí{{else}}No{{/if}}</td>
                 <td>{{this.Man_detalles}}</td>
                 <td>{{this.Man_estado}}</td>
                 <td>
-                    <a href="/editMantenimiento/{{this.Man_id}}" class="btn btn-warning">Editar</a>
-                    <a href="/deleteMantenimiento/{{this.Man_id}}" class="btn btn-danger">Eliminar</a>
+                    <div class="btn-group">
+                        <a href="/editMantenimiento/{{this.Man_id}}" class="btn btn-warning">
+                        <i class="fa-solid fa-pencil"></i></a>
+                        <a href="/deleteMantenimiento/{{this.Man_id}}" class="btn btn-danger">
+                        <i class="fa-solid fa-trash"></i></a>
+                    </div>
                 </td>
             </tr>
             {{/each}}

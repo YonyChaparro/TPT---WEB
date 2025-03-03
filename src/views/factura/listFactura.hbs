@@ -24,8 +24,12 @@
                 <td>${{this.Fac_descuento}}</td>
                 <td>{{this.Fac_metodo_pago}}</td>
                 <td>
-                    <a href="/editFactura/{{this.Fac_id}}" class="btn btn-warning">Editar</a>
-                    <a href="/deleteFactura/{{this.Fac_id}}" class="btn btn-danger">Eliminar</a>
+                    <div class="btn-group">
+                        <a href="/editFactura/{{this.Fac_id}}" class="btn btn-warning">
+                        <i class="fa-solid fa-pencil"></i></a>
+                        <a href="/deleteFactura/{{this.Fac_id}}" class="btn btn-danger">
+                        <i class="fa-solid fa-trash"></i></a>
+                    </div>
                 </td>
             </tr>
             {{/each}}

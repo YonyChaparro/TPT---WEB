@@ -181,6 +181,14 @@ CREATE TABLE Factura (
 
 -- PROCESO ALMACENADO PARA ALQUILAR VEHÍCULO *******************************;
 
+
+
+
+-- Descripción del Procedimiento Almacenado SP_Verificar_Disponibilidad
+-- El procedimiento almacenado SP_Verificar_Disponibilidad se encarga de verificar si un vehículo está disponible para ser alquilado. Su lógica se basa en dos condiciones principales:
+-- El vehículo NO debe tener un alquiler activo.
+-- El vehículo NO debe estar en mantenimiento pendiente.
+-- Si el vehículo cumple ambas condiciones, se considera disponible; de lo contrario, se considera no disponible.
 DROP PROCEDURE IF EXISTS SP_Verificar_Disponibilidad;
 DELIMITER $$
 
@@ -212,3 +220,5 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+

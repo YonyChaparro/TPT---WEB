@@ -21,24 +21,25 @@ routerServicios.get("/verificar-disponibilidad", async (req, res) => {
     }
 });
 
-// Mostrar formulario de creación de servicios
+// 📌 Mostrar formulario de creación de servicios
 routerServicios.get("/addServicios", async (req, res) => {
     try {
         // Obtener lista de clientes
         const [clientes] = await pool.query(`
             SELECT Cliente.Cli_id, Persona.Per_nombre, Cliente.Cli_usuario
-            FROM Cliente
+            FROM Cliente 
             JOIN Persona ON Cliente.Cli_per_id = Persona.Per_id
         `);
 
-        // Obtener lista de vehículos disponibles
+        // Obtener lista de vehículos disponibles con su tipo
         const [vehiculos] = await pool.query(`
-            SELECT Veh_placa, Veh_marca, Veh_modelo
-            FROM Vehiculo
-            WHERE Veh_placa NOT IN (
+            SELECT Vehiculo.Veh_placa, Vehiculo.Veh_marca, Vehiculo.Veh_modelo, Tipo_Vehiculo.Tip_nombre
+            FROM Vehiculo 
+            JOIN Tipo_Vehiculo ON Vehiculo.Veh_tipo = Tipo_Vehiculo.Tip_id
+            WHERE Vehiculo.Veh_placa NOT IN (
                 SELECT Alq_vehiculo_placa FROM Alquiler WHERE Alq_estado = 'Activo'
-            )
-            AND Veh_placa NOT IN (
+            ) 
+            AND Vehiculo.Veh_placa NOT IN (
                 SELECT Man_vehiculo_placa FROM Mantenimiento_Vehiculo WHERE Man_estado = 'Pendiente'
             )
         `);
@@ -74,12 +75,13 @@ routerServicios.get("/listServicios", async (req, res) => {
     try {
         const [result] = await pool.query(`
             SELECT s.Alq_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, 
-                   v.Veh_placa, v.Veh_marca, v.Veh_modelo, s.Alq_tipo, 
-                   s.Alq_fecha_inicio, s.Alq_duracion, s.Alq_estado
+                   v.Veh_placa, v.Veh_marca, v.Veh_modelo, tv.Tip_nombre, 
+                   s.Alq_tipo, s.Alq_fecha_inicio, s.Alq_duracion, s.Alq_estado
             FROM Alquiler s
             JOIN Cliente c ON s.Alq_cliente = c.Cli_id
             JOIN Persona p ON c.Cli_per_id = p.Per_id
-            JOIN Vehiculo v ON s.Alq_vehiculo_placa = v.Veh_placa;
+            JOIN Vehiculo v ON s.Alq_vehiculo_placa = v.Veh_placa
+            JOIN Tipo_Vehiculo tv ON v.Veh_tipo = tv.Tip_id;
         `);
         res.render("servicios/listServicios.hbs", { Servicio: result });
     } catch (err) {

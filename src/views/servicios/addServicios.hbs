@@ -25,9 +25,17 @@
                             <select id="vehiculo" name="vehiculo" class="form-control" required>
                                 <option value="" disabled selected>Seleccione un Vehículo</option>
                                 {{#each vehiculos}}
-                                    <option value="{{this.Veh_placa}}">{{this.Veh_placa}} - {{this.Veh_marca}} {{this.Veh_modelo}}</option>
+                                    <option value="{{this.Veh_placa}}" data-tipo="{{this.Tip_nombre}}">
+                                        {{this.Veh_placa}} - {{this.Veh_marca}} {{this.Veh_modelo}}
+                                    </option>
                                 {{/each}}
                             </select>
+                        </div>
+
+                        <!-- Mostrar Tipo de Vehículo -->
+                        <div class="input-group mt-2">
+                            <label class="input-group-text">Tipo de Vehículo</label>
+                            <input class="form-control" type="text" id="tipoVehiculo" disabled>
                         </div>
 
                         <!-- Botón de Verificación -->
@@ -71,6 +79,13 @@
 </div>
 
 <script>
+// Al cambiar el vehículo seleccionado, actualizar el tipo de vehículo
+document.getElementById("vehiculo").addEventListener("change", function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const tipoVehiculo = selectedOption.getAttribute("data-tipo") || "Desconocido";
+    document.getElementById("tipoVehiculo").value = tipoVehiculo;
+});
+
 document.getElementById("verificarBtn").addEventListener("click", async function() {
     const vehiculo = document.getElementById("vehiculo").value;
     if (!vehiculo) {

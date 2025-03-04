@@ -5,11 +5,14 @@
     <table class="table table-bordered text-center">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
-                <th>ID de Alquiler</th>
+                <th>ID Factura</th>
+                <th>Cliente</th>
+                <th>Vehículo</th>
                 <th>Fecha</th>
+                <th>Subtotal</th>
                 <th>Impuesto</th>
                 <th>Descuento</th>
+                <th>Total</th>
                 <th>Método de Pago</th>
                 <th>Acciones</th>
             </tr>
@@ -18,17 +21,22 @@
             {{#each facturas}}
             <tr>
                 <td>{{this.Fac_id}}</td>
-                <td>{{this.Fac_alquiler_id}}</td>
+                <td>{{this.Per_nombre}}</td>
+                <td>{{this.Veh_placa}} - {{this.Veh_marca}} {{this.Veh_modelo}}</td>
                 <td>{{this.Fac_fecha}}</td>
+                <td>${{this.Fac_subtotal}}</td>
                 <td>${{this.Fac_impuesto}}</td>
                 <td>${{this.Fac_descuento}}</td>
+                <td><strong>${{this.Fac_total}}</strong></td>
                 <td>{{this.Fac_metodo_pago}}</td>
                 <td>
                     <div class="btn-group">
                         <a href="/editFactura/{{this.Fac_id}}" class="btn btn-warning">
-                        <i class="fa-solid fa-pencil"></i></a>
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
                         <a href="/deleteFactura/{{this.Fac_id}}" class="btn btn-danger">
-                        <i class="fa-solid fa-trash"></i></a>
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
                     </div>
                 </td>
             </tr>

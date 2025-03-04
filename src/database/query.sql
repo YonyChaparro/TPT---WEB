@@ -222,3 +222,82 @@ END $$
 DELIMITER ;
 
 
+-- Este procedimiento almacena la factura solo si el servicio está finalizado.
+
+sql
+Copy
+Edit
+
+
+DROP PROCEDURE IF EXISTS SP_Crear_Factura;
+DELIMITER $$
+
+CREATE PROCEDURE SP_Crear_Factura(IN alquiler_id INT)
+BEGIN
+    DECLARE v_cliente_id INT;
+    DECLARE v_tipo_alquiler INT;
+    DECLARE v_duracion INT;
+    DECLARE v_costo_por_hora DECIMAL(10,2);
+    DECLARE v_subtotal DECIMAL(10,2);
+    DECLARE v_impuesto DECIMAL(10,2);
+    DECLARE v_descuento DECIMAL(10,2);
+    DECLARE v_total DECIMAL(10,2);
+    DECLARE v_estado ENUM('Activo', 'Finalizado');
+
+    -- Verificar el estado del alquiler
+    SELECT Alq_cliente, Alq_tipo, Alq_duracion, Alq_estado
+    INTO v_cliente_id, v_tipo_alquiler, v_duracion, v_estado
+    FROM Alquiler
+    WHERE Alq_id = alquiler_id;
+
+    -- Si el alquiler no está finalizado, no generar factura
+    IF v_estado != 'Finalizado' THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'El servicio debe estar Finalizado para generar la factura';
+    END IF;
+
+    -- Obtener el costo por hora del tipo de alquiler
+    SELECT Tip_Alq_costo_por_hora
+    INTO v_costo_por_hora
+    FROM Tipo_Alquiler
+    WHERE Tip_Alq_id = v_tipo_alquiler;
+
+    -- Calcular el subtotal (duración en horas * costo por hora)
+    SET v_subtotal = v_duracion * v_costo_por_hora;
+
+    -- Aplicar un 10% de impuesto
+    SET v_impuesto = v_subtotal * 0.10;
+
+    -- Aplicar un descuento del 5% si el alquiler dura más de 10 horas
+    IF v_duracion > 10 THEN
+        SET v_descuento = v_subtotal * 0.05;
+    ELSE
+        SET v_descuento = 0;
+    END IF;
+
+    -- Calcular el total
+    SET v_total = (v_subtotal + v_impuesto) - v_descuento;
+
+    -- Insertar la factura en la base de datos
+    INSERT INTO Factura (Fac_alquiler_id, Fac_fecha, Fac_impuesto, Fac_descuento, Fac_metodo_pago)
+    VALUES (alquiler_id, CURDATE(), v_impuesto, v_descuento, 'Efectivo');
+END $$
+
+DELIMITER ;
+
+-- Este trigger se activará cuando el estado de un alquiler cambie a Finalizado, llamando automáticamente al procedimiento SP_Crear_Factura.
+
+DROP TRIGGER IF EXISTS TR_Auto_Generar_Factura;
+DELIMITER $$
+
+CREATE TRIGGER TR_Auto_Generar_Factura
+AFTER UPDATE ON Alquiler
+FOR EACH ROW
+BEGIN
+    -- Si el estado cambia a "Finalizado", se genera la factura
+    IF OLD.Alq_estado != 'Finalizado' AND NEW.Alq_estado = 'Finalizado' THEN
+        CALL SP_Crear_Factura(NEW.Alq_id);
+    END IF;
+END $$
+
+DELIMITER ;

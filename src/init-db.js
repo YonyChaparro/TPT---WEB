@@ -1,4 +1,4 @@
-// init-db.js para SQLite
+// init-db.js para SQLite con datos de ejemplo extendidos
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
@@ -9,7 +9,7 @@ const initDb = async () => {
   });
 
   await db.exec(`
-    -- Eliminar tablas existentes si existen
+    -- Eliminar tablas existentes si existen (orden inverso por dependencias)
 DROP TABLE IF EXISTS Factura;
 DROP TABLE IF EXISTS Alquiler;
 DROP TABLE IF EXISTS Mantenimiento_Vehiculo;
@@ -216,9 +216,103 @@ BEGIN
         'Efectivo' -- El método de pago debe ser determinado por la aplicación
     WHERE OLD.Alq_estado != 'Finalizado' AND NEW.Alq_estado = 'Finalizado';
 END;
+
+-- Datos de ejemplo
+
+-- Insertar datos en Persona
+INSERT INTO Persona (Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion) VALUES
+(1, 'Juan Perez', '3001234567', 'juan.perez@example.com', 'Calle 10 # 20-30, Bogotá', 'Natural', 'CC'),
+(2, 'Maria Garcia', '3109876543', 'maria.garcia@example.com', 'Carrera 5 # 15-25, Medellín', 'Natural', 'CC'),
+(3, 'Transportes SA', '6015551234', 'info@transportessa.com', 'Avenida 68 # 45-10, Cali', 'Jurídica', 'NIP'),
+(4, 'Pedro Lopez', '3201112233', 'pedro.lopez@example.com', 'Calle 50 # 8-15, Barranquilla', 'Natural', 'CC'),
+(5, 'Logística Express', '6017778899', 'contacto@logisticaexpress.com', 'Diagonal 70 # 10-5, Cartagena', 'Jurídica', 'NIP'),
+(6, 'Ana Rodriguez', '3012345678', 'ana.rodriguez@example.com', 'Calle 7 # 12-34, Bucaramanga', 'Natural', 'CC'),
+(7, 'Carlos Sanchez', '3123456789', 'carlos.sanchez@example.com', 'Carrera 80 # 25-50, Pereira', 'Natural', 'TI'),
+(8, 'Distribuidora Global', '6021112233', 'ventas@distribuidoraglobal.com', 'Avenida Principal # 1-1, Manizales', 'Jurídica', 'NIP'),
+(9, 'Laura Gomez', '3056789012', 'laura.gomez@example.com', 'Calle 20 # 5-10, Cúcuta', 'Natural', 'CE'),
+(10, 'Servicios Integrales SAS', '6043334455', 'soporte@serviciosintegrales.com', 'Carrera 4 # 7-8, Pasto', 'Jurídica', 'NIP');
+
+-- Insertar datos en Cliente
+INSERT INTO Cliente (Cli_per_id, Cli_usuario, Cli_contrasena) VALUES
+(1, 'jperez', 'pass123'),
+(2, 'mgarcia', 'securepass'),
+(6, 'arodriguez', 'ana_pass'),
+(9, 'lgomez', 'laura_pass');
+
+-- Insertar datos en Empleado
+INSERT INTO Empleado (Emp_per_id, Emp_puesto, Emp_salario, Emp_fecha_contratacion) VALUES
+(4, 'Gerente de Operaciones', 4500000.00, '2022-01-15'),
+(5, 'Coordinador de Flota', 3000000.00, '2023-03-01'),
+(7, 'Mecánico Principal', 2800000.00, '2021-08-20'),
+(10, 'Asistente Administrativo', 1800000.00, '2024-01-10');
+
+-- Insertar datos en Socio
+INSERT INTO Socio (Soc_per_id, Soc_numero_de_acciones) VALUES
+(1, 1000),
+(3, 5000),
+(8, 2500);
+
+-- Insertar datos en Proveedor
+INSERT INTO Proveedor (Pro_per_id, Pro_costo_servicio, Pro_servicio) VALUES
+(3, 150000.00, 'Mantenimiento de vehículos'),
+(5, 80000.00, 'Soporte GPS'),
+(8, 200000.00, 'Suministro de repuestos'),
+(10, 50000.00, 'Servicios de limpieza');
+
+-- Insertar datos en Tipo_Alquiler
+INSERT INTO Tipo_Alquiler (Tip_Alq_id, Tip_Alq_nombre, Tip_Alq_costo_por_hora) VALUES
+(1, 'Estándar', 50000),
+(2, 'Completo', 80000);
+
+-- Insertar datos en Tipo_Vehiculo
+INSERT INTO Tipo_Vehiculo (Tip_id, Tip_nombre, Tip_tarifa, Tip_capacidad_carga, Tip_combustible) VALUES
+(1, 'Camioneta', 120000.00, 1.5, 'Gasolina'),
+(2, 'Furgoneta', 100000.00, 2.0, 'Diesel'),
+(3, 'Camión Pequeño', 200000.00, 5.0, 'Diesel'),
+(4, 'Automóvil', 80000.00, 0.5, 'Gasolina'),
+(5, 'Camión Grande', 350000.00, 10.0, 'Diesel');
+
+-- Insertar datos en Vehiculo
+INSERT INTO Vehiculo (Veh_placa, Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt, Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado) VALUES
+('ABC123', 'Bogotá', 1, 'Toyota', 'Hilux', 2020, 50000, 1, '2025-12-31', '2025-11-30', 'Euro V', 1),
+('DEF456', 'Medellín', 2, 'Renault', 'Master', 2019, 75000, 1, '2025-10-20', '2025-09-15', 'Euro IV', 1),
+('GHI789', 'Cali', 3, 'Chevrolet', 'NPR', 2021, 30000, 1, '2026-06-01', '2026-05-25', 'Euro VI', 1),
+('JKL012', 'Bogotá', 4, 'Nissan', 'Versa', 2022, 15000, 1, '2025-08-01', '2025-07-20', 'Euro VI', 0),
+('MNO345', 'Barranquilla', 1, 'Ford', 'Ranger', 2023, 10000, 1, '2026-03-15', '2026-02-28', 'Euro VI', 1),
+('PQR678', 'Cali', 5, 'Freightliner', 'Cascadia', 2018, 150000, 1, '2025-09-01', '2025-08-10', 'Euro V', 1),
+('STU901', 'Medellín', 2, 'Peugeot', 'Boxer', 2020, 60000, 1, '2025-11-01', '2025-10-20', 'Euro VI', 0);
+
+-- Insertar datos en Taller
+INSERT INTO Taller (Tal_nombre, Tal_direccion) VALUES
+('Taller Mecánico Central', 'Calle 100 # 15-40, Bogotá'),
+('Servicio Automotriz Rápido', 'Carrera 30 # 5-10, Medellín'),
+('Auto Repuestos y Servicio', 'Avenida Las Américas # 1-1, Cali'),
+('Diagnóstico Diesel', 'Vía 40 # 2-30, Barranquilla');
+
+-- Insertar datos en Mantenimiento_Vehiculo
+INSERT INTO Mantenimiento_Vehiculo (Man_vehiculo_placa, Man_taller, Man_fecha, Man_tipo, Man_kilometraje_actual, Man_descripcion, Man_costo, Man_cambio_de_aceite, Man_cambio_frenos, Man_alineación_y_balanceo, Man_revision_sistema_electrico, Man_revision_neumaticos, Man_certificacion_ambiental, Man_certificacion_mecanica, Man_detalles, Man_estado, Man_fecha_certificacion_ambiental, Man_fecha_certificacion_mecanica) VALUES
+('ABC123', 1, '2024-06-01', 'Preventivo', 49500, 'Mantenimiento de 50.000 km', 350000.00, 1, 0, 1, 1, 1, 0, 0, 'Revisión general y cambio de filtros.', 'Completado', NULL, NULL),
+('DEF456', 2, '2024-05-10', 'Correctivo', 74800, 'Reparación de sistema de frenos', 600000.00, 0, 1, 0, 0, 0, 0, 0, 'Cambio de pastillas y discos delanteros.', 'Completado', NULL, NULL),
+('GHI789', 3, '2024-04-20', 'Preventivo', 29000, 'Inspección de 30.000 km', 280000.00, 1, 0, 0, 1, 1, 0, 0, 'Revisión de fluidos y sistema de dirección.', 'Completado', NULL, NULL),
+('JKL012', 1, '2024-07-01', 'Preventivo', 14500, 'Primer mantenimiento programado', 200000.00, 1, 0, 0, 0, 1, 0, 0, 'Cambio de aceite y rotación de neumáticos.', 'Pendiente', NULL, NULL),
+('MNO345', 4, '2024-06-15', 'Correctivo', 9800, 'Revisión de aire acondicionado', 180000.00, 0, 0, 0, 1, 0, 0, 0, 'Recarga de gas refrigerante.', 'En proceso', NULL, NULL);
+
+-- Insertar datos en Alquiler
+INSERT INTO Alquiler (Alq_cliente, Alq_vehiculo_placa, Alq_tipo, Alq_fecha_inicio, Alq_duracion, Alq_estado) VALUES
+(1, 'ABC123', 1, '2024-07-01', 24, 'Finalizado'),
+(2, 'DEF456', 2, '2024-07-05', 48, 'Activo'),
+(6, 'JKL012', 1, '2024-07-10', 72, 'Activo'),
+(9, 'GHI789', 2, '2024-06-25', 120, 'Finalizado'),
+(1, 'MNO345', 1, '2024-07-08', 36, 'Activo');
+
+-- Insertar datos en Factura (Nota: El trigger TR_Auto_Generar_Factura insertaría esto automáticamente si el estado de Alquiler cambia a 'Finalizado')
+-- Para fines de datos iniciales, insertamos algunas manualmente.
+INSERT INTO Factura (Fac_alquiler_id, Fac_fecha, Fac_impuesto, Fac_descuento, Fac_metodo_pago) VALUES
+(1, '2024-07-02', 120000.00, 60000.00, 'Tarjeta crédito'),
+(4, '2024-07-01', 480000.00, 240000.00, 'Efectivo');
   `);
 
-  console.log('✅ Base de datos SQLite creada correctamente.');
+  console.log('✅ Base de datos SQLite creada y poblada correctamente.');
 };
 
 initDb();

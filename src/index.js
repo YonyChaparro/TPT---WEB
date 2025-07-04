@@ -16,6 +16,8 @@ import MantenimientoRoutes from './routes/mantenimiento.routes.js'
 import alquilerRoutes from './routes/alquiler.routes.js'
 import facturaRoutes from './routes/factura.routes.js'
 import servicioRoutes from './routes/servicio.router.js'
+import './init-db.js';
+
 
 // Inicialización
 const app = express();

@@ -13,16 +13,27 @@ routerVehiculos.get('/addVehiculos', async (req, res) => {
     }
 });
 
-// Agregar un nuevo vehículo
+// Agregar un nuevo vehículo (SQLite)
 routerVehiculos.post('/addVehiculos', async (req, res) => {
     try {
-        const { Veh_placa, Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt, Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado } = req.body;
-        
-        const newVehiculo = {
-            Veh_placa, Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt, Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado
-        };
-        
-        await pool.query('INSERT INTO Vehiculo SET ?', [newVehiculo]);
+        const {
+            Veh_placa, Veh_cuidad_de_registro, Veh_tipo, Veh_marca,
+            Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt,
+            Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado
+        } = req.body;
+
+        await pool.query(`
+            INSERT INTO Vehiculo (
+                Veh_placa, Veh_cuidad_de_registro, Veh_tipo, Veh_marca,
+                Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt,
+                Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+            Veh_placa, Veh_cuidad_de_registro, Veh_tipo, Veh_marca,
+            Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt,
+            Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado
+        ]);
+
         res.redirect('/listVehiculos');
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -43,7 +54,7 @@ routerVehiculos.get('/listVehiculos', async (req, res) => {
     }
 });
 
-// Obtener formulario de edición de un vehículo con tipos de vehículos
+// Obtener formulario de edición de un vehículo
 routerVehiculos.get('/editVehiculos/:Veh_placa', async (req, res) => {
     try {
         const { Veh_placa } = req.params;
@@ -51,7 +62,10 @@ routerVehiculos.get('/editVehiculos/:Veh_placa', async (req, res) => {
         const [tipos] = await pool.query('SELECT * FROM Tipo_Vehiculo');
 
         if (vehiculo.length > 0) {
-            res.render('vehiculos/editVehiculos.hbs', { vehiculo: vehiculo[0], tipos });
+            res.render('vehiculos/editVehiculos.hbs', {
+                vehiculo: vehiculo[0],
+                tipos
+            });
         } else {
             res.status(404).send('Vehículo no encontrado.');
         }
@@ -60,15 +74,37 @@ routerVehiculos.get('/editVehiculos/:Veh_placa', async (req, res) => {
     }
 });
 
-// Editar un vehículo
+// Editar un vehículo (SQLite)
 routerVehiculos.post('/editVehiculos/:Veh_placa', async (req, res) => {
     try {
         const { Veh_placa } = req.params;
-        const { Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt, Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado } = req.body;
-        
-        const editVehiculo = { Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo, Veh_año, Veh_kilometraje, Veh_certificado_runt, Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado };
-        
-        await pool.query('UPDATE Vehiculo SET ? WHERE Veh_placa = ?', [editVehiculo, Veh_placa]);
+        const {
+            Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo,
+            Veh_año, Veh_kilometraje, Veh_certificado_runt,
+            Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental, Veh_gps_instalado
+        } = req.body;
+
+        await pool.query(`
+            UPDATE Vehiculo SET
+                Veh_cuidad_de_registro = ?,
+                Veh_tipo = ?,
+                Veh_marca = ?,
+                Veh_modelo = ?,
+                Veh_año = ?,
+                Veh_kilometraje = ?,
+                Veh_certificado_runt = ?,
+                Veh_soat_vigencia = ?,
+                Veh_rtm_vigencia = ?,
+                Veh_norma_ambiental = ?,
+                Veh_gps_instalado = ?
+            WHERE Veh_placa = ?
+        `, [
+            Veh_cuidad_de_registro, Veh_tipo, Veh_marca, Veh_modelo,
+            Veh_año, Veh_kilometraje, Veh_certificado_runt,
+            Veh_soat_vigencia, Veh_rtm_vigencia, Veh_norma_ambiental,
+            Veh_gps_instalado, Veh_placa
+        ]);
+
         res.redirect('/listVehiculos');
     } catch (err) {
         res.status(500).json({ message: err.message });

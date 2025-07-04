@@ -1,4 +1,3 @@
-// mantenimiento.routes.js
 import { Router } from 'express';
 import pool from '../database.js';
 
@@ -17,13 +16,33 @@ routerMantenimiento.post('/addMantenimiento', async (req, res) => {
             ...req.body,
             Man_cambio_de_aceite: req.body.Man_cambio_de_aceite ? 1 : 0,
             Man_cambio_frenos: req.body.Man_cambio_frenos ? 1 : 0,
-            Man_alineación_y_balanceo: req.body.Man_alineación_y_balanceo ? 1 : 0,
+            Man_alineacion_y_balanceo: req.body.Man_alineacion_y_balanceo ? 1 : 0,
             Man_revision_sistema_electrico: req.body.Man_revision_sistema_electrico ? 1 : 0,
             Man_revision_neumaticos: req.body.Man_revision_neumaticos ? 1 : 0,
             Man_certificacion_ambiental: req.body.Man_certificacion_ambiental ? 1 : 0,
             Man_certificacion_mecanica: req.body.Man_certificacion_mecanica ? 1 : 0
         };
-        await pool.query('INSERT INTO Mantenimiento_Vehiculo SET ?', [mantenimiento]);
+
+        await pool.query(`
+            INSERT INTO Mantenimiento_Vehiculo (
+                Man_vehiculo_placa, Man_taller, Man_fecha, Man_costo, 
+                Man_cambio_de_aceite, Man_cambio_frenos, Man_alineacion_y_balanceo,
+                Man_revision_sistema_electrico, Man_revision_neumaticos, 
+                Man_certificacion_ambiental, Man_certificacion_mecanica
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+            mantenimiento.Man_vehiculo_placa,
+            mantenimiento.Man_taller,
+            mantenimiento.Man_fecha,
+            mantenimiento.Man_costo,
+            mantenimiento.Man_cambio_de_aceite,
+            mantenimiento.Man_cambio_frenos,
+            mantenimiento.Man_alineacion_y_balanceo,
+            mantenimiento.Man_revision_sistema_electrico,
+            mantenimiento.Man_revision_neumaticos,
+            mantenimiento.Man_certificacion_ambiental,
+            mantenimiento.Man_certificacion_mecanica
+        ]);
+
         res.redirect('/listMantenimiento');
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -54,7 +73,11 @@ routerMantenimiento.get('/editMantenimiento/:Man_id', async (req, res) => {
         const [talleres] = await pool.query('SELECT Tal_id, Tal_nombre FROM Taller');
 
         if (mantenimiento.length > 0) {
-            res.render('mantenimiento/editMantenimiento.hbs', { mantenimiento: mantenimiento[0], vehiculos, talleres });
+            res.render('mantenimiento/editMantenimiento.hbs', {
+                mantenimiento: mantenimiento[0],
+                vehiculos,
+                talleres
+            });
         } else {
             res.status(404).send('Mantenimiento no encontrado.');
         }
@@ -70,13 +93,41 @@ routerMantenimiento.post('/editMantenimiento/:Man_id', async (req, res) => {
             ...req.body,
             Man_cambio_de_aceite: req.body.Man_cambio_de_aceite ? 1 : 0,
             Man_cambio_frenos: req.body.Man_cambio_frenos ? 1 : 0,
-            Man_alineación_y_balanceo: req.body.Man_alineación_y_balanceo ? 1 : 0,
+            Man_alineacion_y_balanceo: req.body.Man_alineacion_y_balanceo ? 1 : 0,
             Man_revision_sistema_electrico: req.body.Man_revision_sistema_electrico ? 1 : 0,
             Man_revision_neumaticos: req.body.Man_revision_neumaticos ? 1 : 0,
             Man_certificacion_ambiental: req.body.Man_certificacion_ambiental ? 1 : 0,
             Man_certificacion_mecanica: req.body.Man_certificacion_mecanica ? 1 : 0
         };
-        await pool.query('UPDATE Mantenimiento_Vehiculo SET ? WHERE Man_id = ?', [mantenimiento, Man_id]);
+
+        await pool.query(`
+            UPDATE Mantenimiento_Vehiculo SET 
+                Man_vehiculo_placa = ?, 
+                Man_taller = ?, 
+                Man_fecha = ?, 
+                Man_costo = ?, 
+                Man_cambio_de_aceite = ?, 
+                Man_cambio_frenos = ?, 
+                Man_alineacion_y_balanceo = ?, 
+                Man_revision_sistema_electrico = ?, 
+                Man_revision_neumaticos = ?, 
+                Man_certificacion_ambiental = ?, 
+                Man_certificacion_mecanica = ?
+            WHERE Man_id = ?`, [
+            mantenimiento.Man_vehiculo_placa,
+            mantenimiento.Man_taller,
+            mantenimiento.Man_fecha,
+            mantenimiento.Man_costo,
+            mantenimiento.Man_cambio_de_aceite,
+            mantenimiento.Man_cambio_frenos,
+            mantenimiento.Man_alineacion_y_balanceo,
+            mantenimiento.Man_revision_sistema_electrico,
+            mantenimiento.Man_revision_neumaticos,
+            mantenimiento.Man_certificacion_ambiental,
+            mantenimiento.Man_certificacion_mecanica,
+            Man_id
+        ]);
+
         res.redirect('/listMantenimiento');
     } catch (err) {
         res.status(500).json({ message: err.message });

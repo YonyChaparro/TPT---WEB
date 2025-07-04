@@ -1,80 +1,115 @@
-import {Router} from 'express'
-import pool from '../database.js'
+import { Router } from 'express';
+import pool from '../database.js';
 
 const router = Router();
 
-// Añadimos a la lista
-router.get('/add', (req,res)=>{
-    res.render('personas/add.hbs')
-})
+// Formulario para agregar persona
+router.get('/add', (req, res) => {
+    res.render('personas/add.hbs');
+});
 
-router.post('/add', async(req, res)=>{
+// Agregar persona a la base de datos
+router.post('/add', async (req, res) => {
     try {
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
-        const newPersona = {
-            Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion
-        }
-        await pool.query('INSERT INTO Persona SET ?', [newPersona]);
-        res.redirect('/list')
+        const {
+            Per_id,
+            Per_nombre,
+            Per_telefono,
+            Per_email,
+            Per_direccion,
+            Per_tipo,
+            Per_tipo_identificacion
+        } = req.body;
+
+        await pool.query(`
+            INSERT INTO Persona (
+                Per_id, Per_nombre, Per_telefono, Per_email,
+                Per_direccion, Per_tipo, Per_tipo_identificacion
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [
+            Per_id, Per_nombre, Per_telefono, Per_email,
+            Per_direccion, Per_tipo, Per_tipo_identificacion
+        ]);
+
+        res.redirect('/list');
     } catch (err) {
-        res.status(500).json({message:err.message})
+        res.status(500).json({ message: err.message });
     }
 });
 
-// Obtenemos lista
-router.get('/list', async(req,res)=>{
-    try{
+// Listar personas
+router.get('/list', async (req, res) => {
+    try {
         const [result] = await pool.query('SELECT * FROM Persona');
-        res.render('personas/list.hbs', {personas: result})
-    }
-    catch(err){
-        res.status(500).json({message:err.message});
-    }
-})
-// Select para editar por id
-router.get('/edit/:Per_id', async(req, res)=>{
-    try {
-        const {Per_id} = req.params;
-        const [persona]=await pool.query('SELECT * FROM Persona WHERE Per_id=?', [Per_id]);
-        const personaEdit = persona[0];
-        res.render('personas/edit.hbs', {persona: personaEdit});
+        res.render('personas/list.hbs', { personas: result });
     } catch (err) {
-        res.status(500).json({message:err.message});
+        res.status(500).json({ message: err.message });
     }
 });
 
-// Actualizamos de la lista
-router.post('/edit/:Per_id', async(req, res)=>{
+// Mostrar formulario de edición
+router.get('/edit/:Per_id', async (req, res) => {
     try {
-        const {Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion} = req.body;
-        const {Per_id} = req.params;
-        const editPersona = {Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion};
-        await pool.query('UPDATE Persona SET ? WHERE Per_id = ?', [editPersona, Per_id]);
-        res.redirect('/list')
+        const { Per_id } = req.params;
+        const [persona] = await pool.query('SELECT * FROM Persona WHERE Per_id = ?', [Per_id]);
+
+        if (persona.length > 0) {
+            res.render('personas/edit.hbs', { persona: persona[0] });
+        } else {
+            res.status(404).send('Persona no encontrada');
+        }
     } catch (err) {
-        res.status(500).json({message:err.message});
+        res.status(500).json({ message: err.message });
     }
-})
+});
 
-// Borramos de la lista
-
-router.get('/delete/:Per_id', async(req, res)=>{  //Hacer todo el SQL Acá;
+// Actualizar persona
+router.post('/edit/:Per_id', async (req, res) => {
     try {
-        const {Per_id} = req.params;
+        const { Per_id } = req.params;
+        const {
+            Per_nombre,
+            Per_telefono,
+            Per_email,
+            Per_direccion,
+            Per_tipo,
+            Per_tipo_identificacion
+        } = req.body;
+
+        await pool.query(`
+            UPDATE Persona SET 
+                Per_nombre = ?, 
+                Per_telefono = ?, 
+                Per_email = ?, 
+                Per_direccion = ?, 
+                Per_tipo = ?, 
+                Per_tipo_identificacion = ?
+            WHERE Per_id = ?
+        `, [
+            Per_nombre,
+            Per_telefono,
+            Per_email,
+            Per_direccion,
+            Per_tipo,
+            Per_tipo_identificacion,
+            Per_id
+        ]);
+
+        res.redirect('/list');
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Eliminar persona
+router.get('/delete/:Per_id', async (req, res) => {
+    try {
+        const { Per_id } = req.params;
         await pool.query('DELETE FROM Persona WHERE Per_id = ?', [Per_id]);
-        res.redirect('/list')
+        res.redirect('/list');
     } catch (err) {
-        res.status(500).json({message:err.message});
+        res.status(500).json({ message: err.message });
     }
-})
-
+});
 
 export default router;
-
-// *****************************************RUTAS CLIENTES*********************
-
-
-
-
-
-

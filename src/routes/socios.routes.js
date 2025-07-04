@@ -1,23 +1,33 @@
-// socios.routes.js
 import { Router } from 'express';
 import pool from '../database.js';
 
 const routerSocios = Router();
 
-// Añadir socio
+// Mostrar formulario para añadir socio
 routerSocios.get('/addSocios', (req, res) => {
     res.render('socios/addSocios.hbs');
 });
 
+// Añadir nuevo socio
 routerSocios.post('/addSocios', async (req, res) => {
     try {
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Soc_numero_de_acciones } = req.body;
+        const {
+            Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion,
+            Per_tipo, Per_tipo_identificacion, Soc_numero_de_acciones
+        } = req.body;
 
-        const newPersona = { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion };
-        await pool.query('INSERT INTO Persona SET ?', [newPersona]);
+        // Insertar en Persona (SQLite no admite SET ?, así que usamos nombres explícitos)
+        await pool.query(`
+            INSERT INTO Persona (
+                Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion]);
 
-        await pool.query('INSERT INTO Socio (Soc_per_id, Soc_numero_de_acciones) VALUES (?, ?)',
-            [Per_id, Soc_numero_de_acciones]);
+        // Insertar en Socio
+        await pool.query(`
+            INSERT INTO Socio (Soc_per_id, Soc_numero_de_acciones)
+            VALUES (?, ?)
+        `, [Per_id, Soc_numero_de_acciones]);
 
         res.redirect('/listSocios');
     } catch (err) {
@@ -29,9 +39,11 @@ routerSocios.post('/addSocios', async (req, res) => {
 routerSocios.get('/listSocios', async (req, res) => {
     try {
         const [result] = await pool.query(`
-            SELECT s.Soc_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, s.Soc_numero_de_acciones
+            SELECT s.Soc_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, 
+                   p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, 
+                   s.Soc_numero_de_acciones
             FROM Socio s
-            JOIN Persona p ON s.Soc_per_id = p.Per_id;
+            JOIN Persona p ON s.Soc_per_id = p.Per_id
         `);
         res.render('socios/listSocios.hbs', { Socio: result });
     } catch (err) {
@@ -39,12 +51,15 @@ routerSocios.get('/listSocios', async (req, res) => {
     }
 });
 
-// Editar socio
+// Mostrar formulario de edición
 routerSocios.get('/editSocios/:Soc_id', async (req, res) => {
     try {
         const { Soc_id } = req.params;
+
         const [socio] = await pool.query(`
-            SELECT s.Soc_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, s.Soc_numero_de_acciones
+            SELECT s.Soc_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, 
+                   p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, 
+                   s.Soc_numero_de_acciones
             FROM Socio s
             JOIN Persona p ON s.Soc_per_id = p.Per_id
             WHERE s.Soc_id = ?
@@ -60,16 +75,29 @@ routerSocios.get('/editSocios/:Soc_id', async (req, res) => {
     }
 });
 
+// Procesar edición
 routerSocios.post('/editSocios/:Soc_id', async (req, res) => {
     try {
         const { Soc_id } = req.params;
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Soc_numero_de_acciones } = req.body;
+        const {
+            Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion,
+            Per_tipo, Per_tipo_identificacion, Soc_numero_de_acciones
+        } = req.body;
 
-        const editPersona = { Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion };
-        await pool.query('UPDATE Persona SET ? WHERE Per_id = ?', [editPersona, Per_id]);
+        // Actualizar Persona (evitamos SET ? para compatibilidad con SQLite)
+        await pool.query(`
+            UPDATE Persona SET
+                Per_nombre = ?, Per_telefono = ?, Per_email = ?, 
+                Per_direccion = ?, Per_tipo = ?, Per_tipo_identificacion = ?
+            WHERE Per_id = ?
+        `, [Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Per_id]);
 
-        const editSocio = { Soc_numero_de_acciones };
-        await pool.query('UPDATE Socio SET ? WHERE Soc_id = ?', [editSocio, Soc_id]);
+        // Actualizar Socio
+        await pool.query(`
+            UPDATE Socio SET
+                Soc_numero_de_acciones = ?
+            WHERE Soc_id = ?
+        `, [Soc_numero_de_acciones, Soc_id]);
 
         res.redirect('/listSocios');
     } catch (err) {

@@ -15,7 +15,11 @@ routerAlquiler.get('/addAlquiler', async (req, res) => {
 routerAlquiler.post('/addAlquiler', async (req, res) => {
     try {
         const alquiler = req.body;
-        await pool.query('INSERT INTO Alquiler SET ?', [alquiler]);
+        const keys = Object.keys(alquiler);
+        const values = Object.values(alquiler);
+        const placeholders = keys.map(() => '?').join(', ');
+        const sql = `INSERT INTO Alquiler (${keys.join(', ')}) VALUES (${placeholders})`;
+        await pool.query(sql, values);
         res.redirect('/listAlquileres');
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -61,7 +65,11 @@ routerAlquiler.get('/editAlquiler/:Alq_id', async (req, res) => {
 routerAlquiler.post('/editAlquiler/:Alq_id', async (req, res) => {
     try {
         const { Alq_id } = req.params;
-        await pool.query('UPDATE Alquiler SET ? WHERE Alq_id = ?', [req.body, Alq_id]);
+        const keys = Object.keys(req.body);
+        const values = Object.values(req.body);
+        const setClause = keys.map(key => `${key} = ?`).join(', ');
+        const sql = `UPDATE Alquiler SET ${setClause} WHERE Alq_id = ?`;
+        await pool.query(sql, [...values, Alq_id]);
         res.redirect('/listAlquileres');
     } catch (err) {
         res.status(500).json({ message: err.message });

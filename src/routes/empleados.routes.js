@@ -1,4 +1,3 @@
-// empleados.routes.js
 import { Router } from 'express';
 import pool from '../database.js';
 
@@ -11,13 +10,23 @@ routerEmpleados.get('/addEmpleados', (req, res) => {
 
 routerEmpleados.post('/addEmpleados', async (req, res) => {
     try {
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Emp_puesto, Emp_salario, Emp_fecha_contratacion } = req.body;
+        const {
+            Per_id, Per_nombre, Per_telefono, Per_email,
+            Per_direccion, Per_tipo, Per_tipo_identificacion,
+            Emp_puesto, Emp_salario, Emp_fecha_contratacion
+        } = req.body;
 
-        const newPersona = { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion };
-        await pool.query('INSERT INTO Persona SET ?', [newPersona]);
+        // Insertar Persona (SQLite compatible)
+        const personaFields = ['Per_id', 'Per_nombre', 'Per_telefono', 'Per_email', 'Per_direccion', 'Per_tipo', 'Per_tipo_identificacion'];
+        const personaValues = [Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion];
+        const personaSQL = `INSERT INTO Persona (${personaFields.join(', ')}) VALUES (${personaFields.map(() => '?').join(', ')})`;
+        await pool.query(personaSQL, personaValues);
 
-        await pool.query('INSERT INTO Empleado (Emp_per_id, Emp_puesto, Emp_salario, Emp_fecha_contratacion) VALUES (?, ?, ?, ?)',
-            [Per_id, Emp_puesto, Emp_salario, Emp_fecha_contratacion]);
+        // Insertar Empleado
+        await pool.query(
+            'INSERT INTO Empleado (Emp_per_id, Emp_puesto, Emp_salario, Emp_fecha_contratacion) VALUES (?, ?, ?, ?)',
+            [Per_id, Emp_puesto, Emp_salario, Emp_fecha_contratacion]
+        );
 
         res.redirect('/listEmpleados');
     } catch (err) {
@@ -31,7 +40,7 @@ routerEmpleados.get('/listEmpleados', async (req, res) => {
         const [result] = await pool.query(`
             SELECT e.Emp_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, e.Emp_puesto, e.Emp_salario, e.Emp_fecha_contratacion
             FROM Empleado e
-            JOIN Persona p ON e.Emp_per_id = p.Per_id;
+            JOIN Persona p ON e.Emp_per_id = p.Per_id
         `);
         res.render('empleados/listEmpleados.hbs', { Empleado: result });
     } catch (err) {
@@ -63,13 +72,21 @@ routerEmpleados.get('/editEmpleados/:Emp_id', async (req, res) => {
 routerEmpleados.post('/editEmpleados/:Emp_id', async (req, res) => {
     try {
         const { Emp_id } = req.params;
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Emp_puesto, Emp_salario, Emp_fecha_contratacion } = req.body;
+        const {
+            Per_id, Per_nombre, Per_telefono, Per_email,
+            Per_direccion, Per_tipo, Per_tipo_identificacion,
+            Emp_puesto, Emp_salario, Emp_fecha_contratacion
+        } = req.body;
 
-        const editPersona = { Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion };
-        await pool.query('UPDATE Persona SET ? WHERE Per_id = ?', [editPersona, Per_id]);
+        // Actualizar Persona
+        const personaFields = ['Per_nombre', 'Per_telefono', 'Per_email', 'Per_direccion', 'Per_tipo', 'Per_tipo_identificacion'];
+        const personaValues = [Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion];
+        const updatePersonaSQL = `UPDATE Persona SET ${personaFields.map(f => `${f} = ?`).join(', ')} WHERE Per_id = ?`;
+        await pool.query(updatePersonaSQL, [...personaValues, Per_id]);
 
-        const editEmpleado = { Emp_puesto, Emp_salario, Emp_fecha_contratacion };
-        await pool.query('UPDATE Empleado SET ? WHERE Emp_id = ?', [editEmpleado, Emp_id]);
+        // Actualizar Empleado
+        const updateEmpleadoSQL = 'UPDATE Empleado SET Emp_puesto = ?, Emp_salario = ?, Emp_fecha_contratacion = ? WHERE Emp_id = ?';
+        await pool.query(updateEmpleadoSQL, [Emp_puesto, Emp_salario, Emp_fecha_contratacion, Emp_id]);
 
         res.redirect('/listEmpleados');
     } catch (err) {

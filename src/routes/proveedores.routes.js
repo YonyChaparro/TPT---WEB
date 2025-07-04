@@ -1,23 +1,43 @@
-// proveedores.routes.js
 import { Router } from 'express';
 import pool from '../database.js';
 
 const routerProveedores = Router();
 
-// Añadir proveedor
+// Mostrar formulario para añadir proveedor
 routerProveedores.get('/addProveedores', (req, res) => {
     res.render('proveedores/addProveedores.hbs');
 });
 
+// Agregar proveedor
 routerProveedores.post('/addProveedores', async (req, res) => {
     try {
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Pro_costo_servicio, Pro_servicio } = req.body;
+        const {
+            Per_id,
+            Per_nombre,
+            Per_telefono,
+            Per_email,
+            Per_direccion,
+            Per_tipo,
+            Per_tipo_identificacion,
+            Pro_costo_servicio,
+            Pro_servicio
+        } = req.body;
 
-        const newPersona = { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion };
-        await pool.query('INSERT INTO Persona SET ?', [newPersona]);
+        await pool.query(`
+            INSERT INTO Persona (
+                Per_id, Per_nombre, Per_telefono, Per_email,
+                Per_direccion, Per_tipo, Per_tipo_identificacion
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [
+            Per_id, Per_nombre, Per_telefono, Per_email,
+            Per_direccion, Per_tipo, Per_tipo_identificacion
+        ]);
 
-        await pool.query('INSERT INTO Proveedor (Pro_per_id, Pro_costo_servicio, Pro_servicio) VALUES (?, ?, ?)',
-            [Per_id, Pro_costo_servicio, Pro_servicio]);
+        await pool.query(`
+            INSERT INTO Proveedor (
+                Pro_per_id, Pro_costo_servicio, Pro_servicio
+            ) VALUES (?, ?, ?)
+        `, [Per_id, Pro_costo_servicio, Pro_servicio]);
 
         res.redirect('/listProveedores');
     } catch (err) {
@@ -29,9 +49,11 @@ routerProveedores.post('/addProveedores', async (req, res) => {
 routerProveedores.get('/listProveedores', async (req, res) => {
     try {
         const [result] = await pool.query(`
-            SELECT pr.Pro_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, pr.Pro_costo_servicio, pr.Pro_servicio
+            SELECT pr.Pro_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, 
+                   p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, 
+                   pr.Pro_costo_servicio, pr.Pro_servicio
             FROM Proveedor pr
-            JOIN Persona p ON pr.Pro_per_id = p.Per_id;
+            INNER JOIN Persona p ON pr.Pro_per_id = p.Per_id
         `);
         res.render('proveedores/listProveedores.hbs', { Proveedor: result });
     } catch (err) {
@@ -39,14 +61,17 @@ routerProveedores.get('/listProveedores', async (req, res) => {
     }
 });
 
-// Editar proveedor
+// Formulario para editar proveedor
 routerProveedores.get('/editProveedores/:Pro_id', async (req, res) => {
     try {
         const { Pro_id } = req.params;
+
         const [proveedor] = await pool.query(`
-            SELECT pr.Pro_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email, p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion, pr.Pro_costo_servicio, pr.Pro_servicio
+            SELECT pr.Pro_id, p.Per_id, p.Per_nombre, p.Per_telefono, p.Per_email,
+                   p.Per_direccion, p.Per_tipo, p.Per_tipo_identificacion,
+                   pr.Pro_costo_servicio, pr.Pro_servicio
             FROM Proveedor pr
-            JOIN Persona p ON pr.Pro_per_id = p.Per_id
+            INNER JOIN Persona p ON pr.Pro_per_id = p.Per_id
             WHERE pr.Pro_id = ?
         `, [Pro_id]);
 
@@ -60,16 +85,47 @@ routerProveedores.get('/editProveedores/:Pro_id', async (req, res) => {
     }
 });
 
+// Editar proveedor
 routerProveedores.post('/editProveedores/:Pro_id', async (req, res) => {
     try {
         const { Pro_id } = req.params;
-        const { Per_id, Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion, Pro_costo_servicio, Pro_servicio } = req.body;
+        const {
+            Per_id,
+            Per_nombre,
+            Per_telefono,
+            Per_email,
+            Per_direccion,
+            Per_tipo,
+            Per_tipo_identificacion,
+            Pro_costo_servicio,
+            Pro_servicio
+        } = req.body;
 
-        const editPersona = { Per_nombre, Per_telefono, Per_email, Per_direccion, Per_tipo, Per_tipo_identificacion };
-        await pool.query('UPDATE Persona SET ? WHERE Per_id = ?', [editPersona, Per_id]);
+        await pool.query(`
+            UPDATE Persona SET 
+                Per_nombre = ?, 
+                Per_telefono = ?, 
+                Per_email = ?, 
+                Per_direccion = ?, 
+                Per_tipo = ?, 
+                Per_tipo_identificacion = ?
+            WHERE Per_id = ?
+        `, [
+            Per_nombre,
+            Per_telefono,
+            Per_email,
+            Per_direccion,
+            Per_tipo,
+            Per_tipo_identificacion,
+            Per_id
+        ]);
 
-        const editProveedor = { Pro_costo_servicio, Pro_servicio };
-        await pool.query('UPDATE Proveedor SET ? WHERE Pro_id = ?', [editProveedor, Pro_id]);
+        await pool.query(`
+            UPDATE Proveedor SET 
+                Pro_costo_servicio = ?, 
+                Pro_servicio = ?
+            WHERE Pro_id = ?
+        `, [Pro_costo_servicio, Pro_servicio, Pro_id]);
 
         res.redirect('/listProveedores');
     } catch (err) {

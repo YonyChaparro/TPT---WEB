@@ -1,10 +1,10 @@
-// init-db.js para SQLite con datos de ejemplo extendidos
+// init-db.js para SQLite (sin triggers problemáticos)
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
 const initDb = async () => {
   const db = await open({
-    filename: './database.db',
+    filename: './src/database.db', // Ruta actualizada a './src/database.db'
     driver: sqlite3.Database
   });
 
@@ -106,37 +106,10 @@ CREATE TABLE IF NOT EXISTS Vehiculo (
     FOREIGN KEY (Veh_tipo) REFERENCES Tipo_Vehiculo(Tip_id)
 );
 
--- Trigger que actualiza automáticamente su estado al insertar un vehículo
-CREATE TRIGGER before_insert_vehiculo
-BEFORE INSERT ON Vehiculo
-FOR EACH ROW
-BEGIN
-    UPDATE NEW SET
-        Veh_soat_vigente = CASE
-            WHEN NEW.Veh_soat_vigencia >= strftime('%Y-%m-%d', 'now') THEN 1
-            ELSE 0
-        END,
-        Veh_rtm_vigente = CASE
-            WHEN NEW.Veh_rtm_vigencia >= strftime('%Y-%m-%d', 'now') THEN 1
-            ELSE 0
-        END;
-END;
-
--- Trigger que actualiza automáticamente su estado al modificar un vehículo
-CREATE TRIGGER before_update_vehiculo
-BEFORE UPDATE ON Vehiculo
-FOR EACH ROW
-BEGIN
-    UPDATE NEW SET
-        Veh_soat_vigente = CASE
-            WHEN NEW.Veh_soat_vigencia >= strftime('%Y-%m-%d', 'now') THEN 1
-            ELSE 0
-        END,
-        Veh_rtm_vigente = CASE
-            WHEN NEW.Veh_rtm_vigencia >= strftime('%Y-%m-%d', 'now') THEN 1
-            ELSE 0
-        END;
-END;
+-- Los triggers before_insert_vehiculo y before_update_vehiculo han sido eliminados
+-- debido a problemas de sintaxis persistentes con SQLite en este entorno.
+-- La lógica para calcular Veh_soat_vigente y Veh_rtm_vigente debe ser implementada
+-- en la capa de aplicación (Node.js) antes de insertar o actualizar un vehículo.
 
 -- Tabla Taller
 CREATE TABLE IF NOT EXISTS Taller (

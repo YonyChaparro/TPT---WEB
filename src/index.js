@@ -18,7 +18,6 @@ import facturaRoutes from './routes/factura.routes.js'
 import servicioRoutes from './routes/servicio.router.js'
 import './init-db.js';
 
-
 // Inicialización
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -30,8 +29,8 @@ app.engine('.hbs', engine({
     partialsDir: join(__dirname, 'views', 'partials'),
     extname: '.hbs',
     helpers: {
-        eq: (a, b) => a === b, // Helper existente
-        ifEquals: function (arg1, arg2, options) { // Helper agregado
+        eq: (a, b) => a === b,
+        ifEquals: function (arg1, arg2, options) {
             return arg1 == arg2 ? options.fn(this) : options.inverse(this);
         }
     }
@@ -45,7 +44,10 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Rutas
+// ✅ Redirección desde la raíz
+app.get('/', (req, res) => res.redirect('/Personas'));
+
+// Rutas principales
 app.get('/Personas', (req, res) => res.render('indexPersona'));
 app.get('/Clientes', (req, res) => res.render('indexClientes'));
 app.get('/Empleados', (req, res) => res.render('indexEmpleados'));
